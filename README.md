@@ -49,7 +49,7 @@ The project is organized into modular detection engineering domains:
 - `hunts/` — Documented threat hunting investigations
 - `research/` — Technical analysis and threat research
   - Threat research and behavioral analysis that informs hunting hypotheses and detection development.
-  - [Remote Management Tool Abuse in Enterprise Environments][def]
+    - [Remote Management Tool Abuse in Enterprise Environments][def]
 - `splunk/` — Splunk-specific detection queries
 - `kql/` — Microsoft Sentinel / Defender queries
 - `crowdstrike/` — CrowdStrike LogScale queries
