@@ -5,11 +5,14 @@
 
 ## Table of Contents
 
-- [Technical Focus Areas](#technical-focus-areas)
-- [Repository Structure](#repository-structure)
-- [Methodology](#methodology)
-- [Purpose](#purpose)
-- [Contact](#contact)
+- [Threat Hunting \& Detection Engineering Portfolio](#threat-hunting--detection-engineering-portfolio)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Technical Focus Areas](#technical-focus-areas)
+  - [Repository Structure](#repository-structure)
+  - [Methodology](#methodology)
+  - [Purpose](#purpose)
+  - [Contact](#contact)
 
 ## Overview
 
