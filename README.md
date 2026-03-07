@@ -48,6 +48,8 @@ The project is organized into modular detection engineering domains:
 - `sigma/` — Vendor-agnostic detection rules
 - `hunts/` — Documented threat hunting investigations
 - `research/` — Technical analysis and threat research
+  - Threat research and behavioral analysis that informs hunting hypotheses and detection development.
+  - [Remote Management Tool Abuse in Enterprise Environments][def]
 - `splunk/` — Splunk-specific detection queries
 - `kql/` — Microsoft Sentinel / Defender queries
 - `crowdstrike/` — CrowdStrike LogScale queries
@@ -89,3 +91,6 @@ It serves as both a technical portfolio and a foundation for future professional
 Daniel Crowder 
 Huntsville, Alabama  
 Threat Hunting | Detection Engineering | Offensive Security
+
+
+[def]: research/rmm_abuse_in_enterprise.md
