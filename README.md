@@ -1,5 +1,16 @@
 # Threat Hunting & Detection Engineering Portfolio
 
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--06-blue)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/dcrowder252/threat-hunting-detections)
+
+## Table of Contents
+
+- [Technical Focus Areas](#technical-focus-areas)
+- [Repository Structure](#repository-structure)
+- [Methodology](#methodology)
+- [Purpose](#purpose)
+- [Contact](#contact)
+
 ## Overview
 
 This repository serves as my professional portfolio for threat hunting, detection engineering, and adversary tradecraft analysis.
@@ -29,16 +40,14 @@ The goal of this project is to translate real-world attacker behavior into actio
 
 ## Repository Structure
 
+The project is organized into modular detection engineering domains:
 
-threat-hunting-detections/
-│
-├── sigma/ # Vendor-agnostic detection rules
-├── hunts/ # Documented threat hunting investigations
-├── research/ # Technical research & deep-dive analysis
-├── splunk/ # Splunk detection queries
-├── kql/ # Microsoft (Sentinel / Defender) queries
-├── crowdstrike/ # CrowdStrike LogScale queries
-└── README.md # This document
+- `sigma/` — Vendor-agnostic detection rules
+- `hunts/` — Documented threat hunting investigations
+- `research/` — Technical analysis and threat research
+- `splunk/` — Splunk-specific detection queries
+- `kql/` — Microsoft Sentinel / Defender queries
+- `crowdstrike/` — CrowdStrike LogScale queries
 
 
 Each folder contains documentation and artifacts aligned to detection engineering workflows.
