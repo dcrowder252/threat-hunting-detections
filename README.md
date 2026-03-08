@@ -63,7 +63,7 @@ Each folder contains documentation and artifacts aligned to detection engineerin
 
 My workflow typically follows this progression:
 
-Research → Hypothesis → Hunt → Detection → Platform Implementation → Validation
+Research → Hunt → Sigma Detection → (Splunk → Crowdstrike → KQL  )
 
 Where possible, detections are:
 
