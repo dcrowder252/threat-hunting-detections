@@ -16,16 +16,22 @@ RMM tools provide attackers with something extremely valuable during an intrusio
 
 Another advantage for attackers is how easily these tools can be introduced into an environment. RMM software can be delivered through common initial access methods such as phishing or malicious downloads, and many platforms offer portable executables that can run without a full installation. This allows attackers to quickly establish remote access without requiring administrative privileges or triggering alerts tied to software installation. Additionally, organizations are sometimes hesitant to block RMM traffic outright because these tools may be used for legitimate IT operations, which further increases the likelihood that malicious usage can go unnoticed.
 
-You can also list commonly abused tools such as:
+## Commonly Abused RMM Tools
+
+The following list represents a small sampling of remote management tools that have been observed in security incidents or discussed in public reporting. This is not intended to be an exhaustive list. There are many legitimate remote administration platforms available, and new tools regularly appear in both enterprise environments and attacker tradecraft.
+
+Some commonly observed RMM tools include:
 
 - AnyDesk
-- ScreenConnect
 - TeamViewer
+- ScreenConnect (ConnectWise Control)
 - Atera
 - Splashtop
 - RustDesk
 - Syncro
 - SimpleHelp
+- LogMeIn
+- GoTo Resolve
 
 ---
 
