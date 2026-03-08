@@ -12,13 +12,9 @@ The same capabilities that make RMM tools valuable to administrators also make t
 
 Describe why these tools are attractive to adversaries.
 
-Example points to consider:
+RMM tools provide attackers with something extremely valuable during an intrusion: legitimate remote access that blends into normal administrative activity. In environments where IT teams already rely on remote management software, distinguishing between routine administration and malicious activity can be difficult. Many RMM platforms use encrypted communications, support persistent connections across reboots, and allow full interactive control of a system. From an attacker’s perspective, this provides many of the same capabilities as custom malware—but without needing to develop or deploy it.
 
-- Legitimate remote administration capability
-- Encrypted communications
-- Persistence across reboots
-- Reduced likelihood of triggering security alerts
-- Interactive remote access to compromised hosts
+Another advantage for attackers is how easily these tools can be introduced into an environment. RMM software can be delivered through common initial access methods such as phishing or malicious downloads, and many platforms offer portable executables that can run without a full installation. This allows attackers to quickly establish remote access without requiring administrative privileges or triggering alerts tied to software installation. Additionally, organizations are sometimes hesitant to block RMM traffic outright because these tools may be used for legitimate IT operations, which further increases the likelihood that malicious usage can go unnoticed.
 
 You can also list commonly abused tools such as:
 
@@ -100,3 +96,5 @@ Example:
 - https://attack.mitre.org/techniques/T1219/
 - https://redcanary.com/threat-detection-report/
 - https://www.cisa.gov/
+
+## Threat Hunt 
