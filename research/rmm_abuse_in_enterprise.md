@@ -43,25 +43,6 @@ Even when approved tools are in place, proper configuration is essential to main
 
 ---
 
-## Hunting Hypothesis
-
-Write a clear hunting hypothesis.
-
-Example structure:
-
-"If attackers deploy unauthorized RMM tools to maintain remote access, evidence of these tools should appear in endpoint telemetry such as process creation events, installation artifacts, or network connections."
-
-Explain what telemetry you would expect to see.
-
-Examples:
-
-- Process creation events
-- Installation activity
-- Network connections
-- Execution from unusual directories
-
----
-
 ## Detection Opportunities
 
 Explain how defenders can detect this behavior.
