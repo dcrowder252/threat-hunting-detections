@@ -37,15 +37,9 @@ Some commonly observed RMM tools include:
 
 ## The Operational Problem
 
-Describe the real-world issue organizations face.
+One of the biggest challenges organizations face with remote management software is the lack of clearly defined policies governing its use. Many environments rely on RMM tools for legitimate administrative tasks, but do not maintain a formal inventory of which tools are approved or who is authorized to use them. This makes it difficult for defenders to distinguish between normal administrative activity and suspicious remote access. Maintaining a well-defined list of approved remote management tools is a critical first step. Without this baseline, security teams have little context for determining whether RMM activity within the environment is expected or potentially malicious.
 
-Key ideas you mentioned earlier could go here:
-
-- Organizations often lack clear policies for remote management tools
-- Security teams may struggle to differentiate legitimate vs unauthorized RMM activity
-- Maintaining an approved list of remote management tools is critical
-
-Explain why this becomes a **policy and governance problem**, not just a technical detection problem.
+Even when approved tools are in place, proper configuration is essential to maintaining security. Many RMM platforms store authentication credentials, maintain persistent access, and allow administrators to remotely execute commands across systems. If these capabilities are not configured securely, they can introduce significant risk. Additionally, attackers can leverage portable versions of many RMM tools that run without a full installation, allowing them to establish remote access while bypassing typical software controls. In some cases, organizations may need to block specific domains or infrastructure associated with these tools to prevent unauthorized usage. It is also important to remember that this risk is not limited to external attackers—insider threats may also misuse RMM software to access systems, move laterally, or perform actions that are harmful to the organization.
 
 ---
 
