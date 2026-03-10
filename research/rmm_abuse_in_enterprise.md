@@ -78,10 +78,6 @@ https://attack.mitre.org/techniques/T1219/002/
 
 ## Sources
 
-If you reference external reports, list them here.
-
-Example:
-
 - https://redcanary.com/threat-detection-report/trends/rmm-tools/
 - https://redcanary.com/blog/threat-intelligence/phishing-rmm-tools/
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a
