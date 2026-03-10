@@ -45,16 +45,24 @@ Even when approved tools are in place, proper configuration is essential to main
 
 ## Detection Opportunities
 
-Explain how defenders can detect this behavior.
+While RMM tools themselves are legitimate software, their misuse often introduces observable patterns that defenders can monitor. Effective detection typically relies on understanding what remote management tools are approved within the environment and establishing a baseline for how they are normally used. Activity that falls outside of these expected patterns should be investigated further.
 
-Examples:
+Some practical detection opportunities include:
 
-- Monitoring execution of known RMM binaries
-- Detecting installations outside approved software deployment systems
-- Watching for execution from user directories or temporary paths
-- Identifying suspicious parent-child process relationships
+Monitor for installation of unapproved RMM tools
+Organizations should maintain an approved list of remote management software. Installation of RMM tools outside of that approved list may indicate unauthorized remote access being established within the environment.
 
-Keep this practical and operational.
+Audit newly installed services (Windows Event ID 7045)
+Many RMM platforms install background services to maintain persistent access to systems. Monitoring Windows Event ID 7045 can help identify when new services are installed, which may reveal unauthorized deployment of remote management software.
+
+Inspect network traffic for known RMM infrastructure
+Many RMM tools communicate with vendor-controlled domains or cloud infrastructure. Monitoring outbound connections to known RMM-related domains can help identify endpoints communicating with remote administration platforms that are not approved within the organization.
+
+Identify RMM processes spawning command interpreters
+RMM software often allows administrators to execute commands remotely. Monitoring for RMM-related processes spawning cmd.exe, powershell.exe, or other scripting engines can reveal suspicious remote activity initiated through these tools.
+
+Look for unusual session times or geographic anomalies
+Remote access occurring outside of normal administrative hours or originating from unexpected geographic regions may warrant investigation. This type of detection requires a solid understanding of normal administrative activity within the organization, which can be challenging in large environments with globally distributed teams.
 
 ---
 
