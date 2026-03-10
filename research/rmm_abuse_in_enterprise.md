@@ -70,20 +70,20 @@ Remote access occurring outside of normal administrative hours or originating fr
 
 Remote access software abuse is categorized as:
 
-**T1219 – Remote Access Software**
+**T1219.002 – Remote Access Software**
 
-https://attack.mitre.org/techniques/T1219/
+https://attack.mitre.org/techniques/T1219/002/
 
 ---
 
-## Sources (Optional)
+## Sources
 
 If you reference external reports, list them here.
 
 Example:
 
-- https://attack.mitre.org/techniques/T1219/
-- https://redcanary.com/threat-detection-report/
-- https://www.cisa.gov/
+- https://redcanary.com/threat-detection-report/trends/rmm-tools/
+- https://redcanary.com/blog/threat-intelligence/phishing-rmm-tools/
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a
 
 ## Threat Hunt 
