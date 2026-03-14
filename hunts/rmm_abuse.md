@@ -2,21 +2,20 @@
 
 ## Overview
 
-Remote Monitoring and Management (RMM) tools are widely used by IT teams to remotely administer systems across an enterprise. These tools provide legitimate remote access capabilities, but they can also be abused by attackers or malicious insiders to maintain control of compromised systems.
+Remote Monitoring and Management (RMM) tools are commonly used by IT teams to remotely manage systems across an enterprise environment. These tools allow administrators to troubleshoot systems, deploy software, and perform maintenance without physical access to endpoints.
 
-This hunt focuses on identifying the presence and usage of remote management tools that may not be approved within the environment. The goal is to detect potential unauthorized remote access by looking for RMM-related network activity and service installations that could indicate these tools are being used outside of normal administrative workflows.
+Because of these capabilities, RMM tools are also attractive to attackers and malicious insiders. When deployed without authorization, these tools can provide persistent remote access while blending in with legitimate administrative activity. This hunt focuses on identifying potential unauthorized usage of remote management tools within the environment.
 
 ---
 
 ## Hunt Hypothesis
 
-If attackers deploy unauthorized RMM tools to maintain remote access within an environment, we should observe evidence of these tools communicating with external infrastructure or installing services on affected systems.
+If attackers deploy unauthorized RMM tools to maintain remote access within an environment, evidence of these tools should appear in network communications or system service installations.
 
-This activity may appear as:
+Potential indicators may include:
 
-* Endpoints connecting to known RMM-related domains
-* Newly installed services associated with remote management tools
-* Remote administration software appearing on systems that are not normally managed using those tools
+•	Endpoints communicating with domains associated with RMM platforms
+•	Newly installed services related to remote administration software
 
 ---
 
