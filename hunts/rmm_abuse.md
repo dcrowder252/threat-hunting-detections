@@ -33,15 +33,12 @@ This hunt may require visibility into the following telemetry sources:
 
 ## Hunt Technique 1: RMM Domain Communication
 
-Many RMM platforms communicate with vendor-controlled domains or cloud infrastructure in order to establish remote sessions. Monitoring outbound connections or DNS queries to known RMM domains may help identify systems interacting with remote management platforms that are not approved within the organization.
+Many RMM tools rely on vendor-controlled infrastructure to facilitate remote connections. Systems using these tools will typically communicate with domains owned by the RMM provider.
 
-Example investigation steps:
+Review DNS queries or network telemetry for connections to domains associated with remote management platforms.
 
-* Review DNS queries for domains associated with common RMM platforms
-* Identify endpoints communicating with those domains
-* Determine whether the corresponding software is approved within the environment
+Examples may include:
 
-Example domains to investigate may include:
 
 * `*.anydesk.com`
 * `*.teamviewer.com`
@@ -49,7 +46,9 @@ Example domains to investigate may include:
 * `*.atera.com`
 * `*.splashtop.com`
 
-Endpoints communicating with these domains should be validated to determine whether the activity is expected.
+Endpoints communicating with these domains should be validated to determine whether the activity is expected and associated with approved administrative tools.
+
+NOTE: This list is not all inclusive, this is just a small sample. Add other domains as needed.
 
 ---
 
