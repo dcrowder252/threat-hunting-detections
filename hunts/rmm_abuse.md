@@ -54,18 +54,19 @@ NOTE: This list is not all inclusive, this is just a small sample. Add other dom
 
 ## Hunt Technique 2: Newly Installed RMM Services
 
-Many RMM tools install background services in order to maintain persistent remote access to systems. Monitoring newly installed services can help identify when remote administration tools are deployed within an environment.
+Many RMM tools install services to maintain persistent remote access. Monitoring newly installed services can help identify when remote administration software is introduced into an environment.
 
-Windows Event ID **7045** records new service installations and can provide valuable visibility into software being deployed on endpoints.
+Windows Event ID 7045 records service installations and can provide visibility into software deployed on endpoints.
 
-Example service names that may be associated with RMM tools include:
+Example service names associated with common RMM tools include:
 
 * `AnyDesk Service`
 * `TeamViewer`
 * `ScreenConnect Client`
+* `Atera Agent`
 * `SplashtopRemoteService`
 
-Security teams should review newly installed services and determine whether the corresponding software is authorized for use within the organization.
+Newly installed services should be reviewed to determine whether the software is authorized within the organization.
 
 ---
 
