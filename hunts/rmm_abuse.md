@@ -72,17 +72,22 @@ Newly installed services should be reviewed to determine whether the software is
 
 ## Investigation Considerations
 
-If suspicious RMM activity is identified, investigators should consider the following questions:
+If suspicious RMM activity is identified, investigators should consider the following:
 
-* Is the RMM tool approved for use within the organization?
-* Was the software installed through an official deployment process?
-* Which user or process initiated the installation?
-* Are there signs of additional suspicious activity on the affected host?
+•	Is the RMM tool approved for use within the organization?
+•	Was the software installed through an authorized deployment method?
+•	Which user or process initiated the activity?
+•	Are there additional indicators of compromise on the affected host?
 
-Answers to these questions can help determine whether the activity represents legitimate administrative use or potential malicious activity.
+Answering these questions can help determine whether the activity represents legitimate administrative use or unauthorized remote access.
 
 ---
 
 ## Conclusion
 
 RMM tools are valuable administrative utilities, but they can also provide attackers with a convenient method for maintaining remote access within a compromised environment. By monitoring network activity and service installations related to remote management software, defenders can improve their ability to detect unauthorized usage and respond to potential intrusions.
+
+## Related Research
+
+This threat hunt builds upon the research documented in:
+- [Remote Management Tool Abuse in Enterprise Environments](../research/rmm_abuse.md)
