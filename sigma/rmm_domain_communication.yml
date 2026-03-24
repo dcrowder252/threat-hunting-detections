@@ -1,0 +1,36 @@
+title: RMM Tool Domain Communication Detected
+id: a3f8c1d2-4e7b-4a9f-b2d1-6e5f8c3a7b0e
+status: experimental
+description: >
+  Detects DNS queries or network connections to domains associated with
+  known Remote Monitoring and Management (RMM) tools. Adversaries may
+  abuse legitimate RMM software to establish persistent remote access
+  and blend in with normal IT traffic.
+author: dcrowder252
+date: 2026-03-23
+references:
+  - https://attack.mitre.org/techniques/T1219/
+
+logsource:
+  category: dns
+  product: windows
+
+detection:
+  selection:
+    QueryName|endswith:
+      - '.anydesk.com'
+      - '.teamviewer.com'
+      - '.screenconnect.com'
+      - '.atera.com'
+      - '.splashtop.com'
+      - '.splashtop.eu'
+  condition: selection
+
+falsepositives:
+  - Legitimate use of RMM tools by IT administrators
+  - Authorized remote support sessions
+
+level: medium
+tags:
+  - attack.command_and_control
+  - attack.t1219
