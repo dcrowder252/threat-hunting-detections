@@ -1,0 +1,35 @@
+title: Remote Management Tool Service Installation Detected
+id: caa2f58d-f60e-4b0f-bc83-396d53800dc3
+status: experimental
+description: >
+  Detects the installation of services associated with common Remote Monitoring
+  and Management (RMM) tools via Windows Event ID 7045. RMM tools can be used
+  by threat actors to establish persistent remote access to compromised endpoints.
+  Newly installed services should be reviewed to confirm they are authorized.
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a
+author: dcrowder252
+date: 2026-03-29
+tags:
+  - attack.persistence
+  - attack.t1543.003
+  - attack.command_and_control
+  - attack.t1219
+logsource:
+  product: windows
+  service: system
+detection:
+  selection:
+    EventID: 7045
+    ServiceName|contains:
+      - 'AnyDesk'
+      - 'TeamViewer'
+      - 'ScreenConnect'
+      - 'Atera Agent'
+      - 'SplashtopRemoteService'
+  condition: selection
+falsepositives:
+  - Legitimate and authorized deployment of RMM tools by IT staff
+  - Managed service providers (MSPs) deploying RMM agents as part of normal operations
+level: medium
