@@ -6,15 +6,18 @@ description: >
   known Remote Monitoring and Management (RMM) tools. Adversaries may
   abuse legitimate RMM software to establish persistent remote access
   and blend in with normal IT traffic.
-author: dcrowder252
-date: 2026-03-23
 references:
   - https://attack.mitre.org/techniques/T1219/
-
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a
+author: dcrowder252
+date: 2026-03-23
+modified: 2026-03-29
+tags:
+  - attack.command_and_control
+  - attack.t1219
 logsource:
   category: dns
   product: windows
-
 detection:
   selection:
     QueryName|endswith:
@@ -25,12 +28,7 @@ detection:
       - '.splashtop.com'
       - '.splashtop.eu'
   condition: selection
-
 falsepositives:
   - Legitimate use of RMM tools by IT administrators
   - Authorized remote support sessions
-
 level: medium
-tags:
-  - attack.command_and_control
-  - attack.t1219
