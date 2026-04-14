@@ -1,0 +1,1 @@
+index=<your_index> sourcetype="WinEventLog:System" EventCode=7045 (ServiceName="*AnyDesk*" OR ServiceName="*TeamViewer*" OR ServiceName="*ScreenConnect*" OR ServiceName="*Atera Agent*" OR ServiceName="*SplashtopRemoteService*")
