@@ -1,15 +1,15 @@
-DeviceEvents
+**DeviceEvents
 | where ActionType == "ServiceInstalled"
-| where ServiceName has_any ("AnyDesk", "TeamViewer", "ScreenConnect", "Atera Agent", "SplashtopRemoteService")
+| where ServiceName has_any ("AnyDesk", "TeamViewer", "ScreenConnect", "Atera Agent", "SplashtopRemoteService")**
 
 NOTE: Replace any field name as neccessary to conform to your environment. Add in other domain names for other RMM tools as you see fit.
 
 
 
-DeviceEvents
+**DeviceEvents
 | where ActionType == "ServiceInstalled"
 | where ServiceName has_any ("AnyDesk", "TeamViewer", "ScreenConnect", "Atera Agent", "SplashtopRemoteService")
-or InitiatingProcessCommandLine has_any ("AnyDesk", "TeamViewer", "ScreenConnect", "Atera", "Splashtop")
+or InitiatingProcessCommandLine has_any ("AnyDesk", "TeamViewer", "ScreenConnect", "Atera", "Splashtop")**
 
 NOTE: ServiceName is the typical field for the service name in Microsoft telemetry, though InitiatingProcessCommandLine may also be worth searching if actors rename the display name to something benign.
 

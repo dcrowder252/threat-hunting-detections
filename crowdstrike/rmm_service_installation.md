@@ -1,13 +1,13 @@
-#event_simpleName=ServiceInstalled
-| ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
+**#event_simpleName=ServiceInstalled
+| ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i**
 
 NOTE: Field names vary in tenants. Adjust fields as neccessary. As always, add other RMM tools as you see fit.
 
 
 
-#event_simpleName=ServiceInstalled
+**#event_simpleName=ServiceInstalled
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
-OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i
+OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i**
 
 NOTE: ServiceDisplayName is the typical field for the service name in CrowdStrike telemetry, though ServiceImagePath may also be worth searching if actors rename the display name to something benign.
 
