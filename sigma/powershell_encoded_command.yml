@@ -1,0 +1,41 @@
+title: PowerShell Encoded Command Execution
+id: 7b8e4f2a-3c1d-4e9b-a6f5-2d8c7e1b0f4a
+status: experimental
+description: Detects PowerShell processes launched with encoded command flags, which are commonly used by attackers to obfuscate malicious command content from logging and basic string-based detection.
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: dcrowder252
+date: 2026/04/21
+modified: 2026/04/21
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+        CommandLine|contains:
+            - ' -EncodedCommand '
+            - ' -EncodedC '
+            - ' -EncodC '
+            - ' -enc '
+            - ' -ec '
+    condition: selection
+falsepositives:
+    - Legitimate administrative scripts that use encoded commands for special character handling
+    - Software deployment tools that invoke PowerShell with encoded arguments
+    - Known automation frameworks — establish a baseline of approved usage before alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
