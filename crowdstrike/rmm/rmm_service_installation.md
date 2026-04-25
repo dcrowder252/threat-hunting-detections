@@ -1,16 +1,42 @@
-**#event_simpleName=ServiceInstalled
-| ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i**
+# RMM Service Installation — CrowdStrike Falcon (LogScale)
 
-NOTE: Field names vary in tenants. Adjust fields as neccessary. As always, add other RMM tools as you see fit.
+**Author:** dcrowder252
+**Date:** 2026/04/21
+**MITRE ATT&CK:** T1219.002
+**Reference:** https://attack.mitre.org/techniques/T1219/002/
 
+---
 
+## Query
 
-**#event_simpleName=ServiceInstalled
+```kusto
+#event_simpleName=ServiceInstalled
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
-OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i**
+| table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
+| sort(field=_time, order=desc)
+```
 
-NOTE: ServiceDisplayName is the typical field for the service name in CrowdStrike telemetry, though ServiceImagePath may also be worth searching if actors rename the display name to something benign.
+---
 
-NOTE: The terms are slightly looser than ServiceDisplayName — for example Atera instead of Atera Agent — because image paths typically reference folder or binary names rather than the friendly service display name, so a broader match is more likely to catch variants.
+## Expanded Version (Display Name + Image Path)
 
-NOTE: If you find the ServiceImagePath match is too noisy in your environment, you can always tighten it up with more specific path strings once you've had a chance to baseline what legitimate hits look like.
+```kusto
+#event_simpleName=ServiceInstalled
+| ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
+OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i
+| table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
+| sort(field=_time, order=desc)
+```
+
+---
+
+## Notes
+
+- This query is written for CrowdStrike Falcon LogScale (formerly Humio)
+- Field names may vary across tenants — adjust as necessary for your environment
+- `ServiceDisplayName` is the typical field for the service name in CrowdStrike telemetry
+- The expanded version also searches `ServiceImagePath`, which is useful if an attacker renames the service display name to something benign
+- The `ServiceImagePath` terms are intentionally broader — for example `Atera` instead of `Atera Agent` — because image paths reference folder or binary names rather than friendly display names
+- If the `ServiceImagePath` match produces too much noise, tighten the strings after baselining legitimate hits in your environment
+- This list is not exhaustive — add additional RMM service names as needed
+- Review results against your approved RMM tool baseline before alerting
