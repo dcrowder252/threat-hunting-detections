@@ -1,0 +1,49 @@
+title: PowerShell Download Cradle Execution
+id: 3f9a2e1c-7d4b-4f8a-b5e6-1c9d0f3a8e2b
+status: experimental
+description: Detects PowerShell processes launched with command-line arguments associated with download cradle techniques, which are commonly used by attackers to retrieve and execute remote payloads in memory without writing to disk.
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1105/
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: dcrowder252
+date: 2026/05/04
+modified: 2026/05/04
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.command_and_control
+    - attack.t1105
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+    selection_cradle:
+        CommandLine|contains:
+            - 'IEX'
+            - 'Invoke-Expression'
+            - 'DownloadString'
+            - 'DownloadFile'
+            - 'Net.WebClient'
+            - 'Invoke-WebRequest'
+            - 'WebRequest'
+            - 'curl'
+            - 'wget'
+    condition: selection_process and selection_cradle
+falsepositives:
+    - Legitimate administrative scripts that use WebClient or Invoke-WebRequest for authorized software downloads
+    - Software deployment and patch management tools that invoke PowerShell download functions
+    - Known automation frameworks — establish a baseline of approved usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
