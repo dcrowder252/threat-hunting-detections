@@ -6,7 +6,6 @@ These queries are intended for use in environments such as:
 
 - Microsoft Sentinel
 - Microsoft Defender for Endpoint (MDE)
-- Microsoft 365 Defender
 - Microsoft Defender XDR
 
 The queries focus on identifying suspicious behaviors associated with common attacker techniques, including:
