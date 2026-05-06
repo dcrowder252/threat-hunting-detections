@@ -1,0 +1,36 @@
+title: Wevtutil Used to Clear Windows Event Logs
+id: 4b7e2a9f-1d5c-4f3b-c8e6-2a0d7f4b1e9c
+status: experimental
+description: Detects the use of wevtutil with log clearing arguments. Wevtutil is a built-in Windows command-line utility that can clear any Windows Event Log programmatically and is commonly used by attackers to remove evidence of malicious activity in a scripted or automated fashion.
+references:
+    - https://attack.mitre.org/techniques/T1070/001/
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil
+author: dcrowder252
+date: 2026/05/06
+modified: 2026/05/06
+tags:
+    - attack.defense_evasion
+    - attack.t1070.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\wevtutil.exe'
+    selection_args:
+        CommandLine|contains:
+            - ' cl '
+            - ' clear-log '
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate administrative log clearing during approved maintenance windows
+    - Automated log management scripts that use wevtutil as part of routine operations
+    - Establish a baseline of approved wevtutil usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
