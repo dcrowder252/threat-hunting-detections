@@ -1,0 +1,40 @@
+title: PowerShell Used to Clear Windows Event Logs
+id: 1e6c3b8d-5f2a-4d9e-a7b4-8e3f1c6d0a2b
+status: experimental
+description: Detects the use of PowerShell cmdlets and methods associated with clearing Windows Event Logs. PowerShell-based log clearing is commonly observed in intrusions where PowerShell is already being leveraged for other stages of the attack chain, and may indicate an attacker attempting to remove evidence of malicious activity.
+references:
+    - https://attack.mitre.org/techniques/T1070/001/
+    - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/clear-eventlog
+author: dcrowder252
+date: 2026/05/06
+modified: 2026/05/06
+tags:
+    - attack.defense_evasion
+    - attack.t1070.001
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+    selection_args:
+        CommandLine|contains:
+            - 'Clear-EventLog'
+            - 'ClearEventLog'
+            - 'System.Diagnostics.EventLog'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate administrative scripts that clear logs as part of approved maintenance workflows
+    - Automated log management processes that use PowerShell cmdlets for routine log operations
+    - Establish a baseline of approved PowerShell log clearing activity before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
