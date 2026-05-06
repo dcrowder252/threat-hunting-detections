@@ -1,0 +1,49 @@
+title: PowerShell Spawned by Suspicious Parent Process
+id: 2e7f5a1b-4d8c-4b2e-a9f3-6c1d0e4b7a3f
+status: experimental
+description: Detects PowerShell processes spawned by Office applications, scripting engines, or other parent processes that are commonly associated with malicious document execution or phishing-based initial access. Legitimate administrative activity rarely involves these parent-child process relationships.
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1566/001/
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: dcrowder252
+date: 2026/05/06
+modified: 2026/05/06
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.initial_access
+    - attack.t1566.001
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\outlook.exe'
+            - '\mshta.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\explorer.exe'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Legitimate macros or scripts launched through Office applications in environments where this is an approved workflow
+    - Explorer-initiated PowerShell may have legitimate context depending on the environment — review in conjunction with command-line arguments
+    - Known automation tools that invoke PowerShell through scripting engines — establish a baseline of approved usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - ParentCommandLine
+    - User
+    - ComputerName
