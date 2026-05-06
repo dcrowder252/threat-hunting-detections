@@ -97,4 +97,4 @@ https://attack.mitre.org/techniques/T1059/001/
 - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows
 - https://attack.mitre.org/techniques/T1059/001/
 
-## Threat Hunt
+

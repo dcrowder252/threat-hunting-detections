@@ -80,4 +80,3 @@ https://attack.mitre.org/techniques/T1219/002/
 - https://redcanary.com/blog/threat-intelligence/phishing-rmm-tools/
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a
 
-## Threat Hunt 

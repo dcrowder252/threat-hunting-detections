@@ -81,4 +81,4 @@ https://attack.mitre.org/techniques/T1070/001/
 - https://redcanary.com/threat-detection-report/techniques/indicator-removal/
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102
 
-## Threat Hunt
+
