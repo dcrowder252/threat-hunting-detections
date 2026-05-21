@@ -1,7 +1,7 @@
 # Windows Security Event Log Cleared — Microsoft Defender (KQL)
 
 **Author:** dcrowder252
-**Date:** 2026/05/08
+**Date:** 2026/05/21
 **MITRE ATT&CK:** T1070.001
 **Reference:** https://attack.mitre.org/techniques/T1070/001/
 
