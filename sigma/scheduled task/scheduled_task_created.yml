@@ -1,0 +1,35 @@
+title: Scheduled Task Created
+id: 6f2d4a8e-1b3c-4e7f-d9a2-5c8b0f1e3d6a
+status: experimental
+description: Detects the creation of a new scheduled task via Windows Event ID 4698. Scheduled tasks are commonly abused by attackers to establish persistent execution mechanisms that survive reboots. Newly created tasks should be reviewed against the expected baseline for the environment, with particular attention paid to tasks configured to run as SYSTEM or referencing unusual execution paths or encoded commands.
+references:
+    - https://attack.mitre.org/techniques/T1053/005/
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698
+author: dcrowder252
+date: 2026/05/24
+modified: 2026/05/24
+tags:
+    - attack.persistence
+    - attack.t1053.005
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4698
+    condition: selection
+falsepositives:
+    - Legitimate software installations that register scheduled tasks as part of their setup process
+    - Administrative scripts that create scheduled tasks for approved automation workflows
+    - Software update mechanisms that register or refresh scheduled tasks during updates
+    - Establish a baseline of approved scheduled task creation activity before alerting
+level: medium
+fields:
+    - EventID
+    - SubjectUserName
+    - SubjectDomainName
+    - TaskName
+    - TaskContent
+    - ComputerName
