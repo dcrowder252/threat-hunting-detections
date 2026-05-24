@@ -1,0 +1,41 @@
+title: PowerShell Used to Register Scheduled Task
+id: 9b2e6f4a-3d1c-4b8e-a5f7-2e9d0c3b6f1a
+status: experimental
+description: Detects the use of PowerShell cmdlets associated with scheduled task registration and modification. PowerShell-based task creation is commonly observed in intrusions where PowerShell is already being leveraged for other stages of the attack chain, and may be used to register tasks that execute encoded payloads, download additional tooling, or maintain persistent access to a compromised system.
+references:
+    - https://attack.mitre.org/techniques/T1053/005/
+    - https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask
+author: dcrowder252
+date: 2026/05/24
+modified: 2026/05/24
+tags:
+    - attack.persistence
+    - attack.t1053.005
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+    selection_args:
+        CommandLine|contains:
+            - 'Register-ScheduledTask'
+            - 'New-ScheduledTaskAction'
+            - 'New-ScheduledTask'
+            - 'Set-ScheduledTask'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate administrative scripts that use PowerShell cmdlets to register scheduled tasks for approved automation workflows
+    - Software installations or update mechanisms that invoke PowerShell task registration cmdlets
+    - Establish a baseline of approved PowerShell scheduled task activity before alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
