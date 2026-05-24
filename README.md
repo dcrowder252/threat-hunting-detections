@@ -88,9 +88,9 @@ It serves as both a technical portfolio and a foundation for future professional
 
 ## Contact
 
-Daniel Crowder 
+Daniel Crowder - datello676@gmail.com
 Huntsville, Alabama  
-Threat Hunting | Detection Engineering | Offensive Security
+Threat Hunting | Detection Engineering 
 
 
 [def]: research/rmm_abuse_in_enterprise.md
