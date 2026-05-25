@@ -1,0 +1,36 @@
+title: Linux Log File Truncation or Deletion
+id: 7a3e1f9c-2b5d-4a8e-c7f4-6d2b0f1a4e3c
+status: experimental
+description: Detects commands used to truncate or delete log files under /var/log/ on Linux systems. Attackers may truncate or delete log files to remove evidence of their activity while leaving the file in place or eliminating it entirely. This activity should be treated as suspicious when observed outside of approved maintenance windows.
+references:
+    - https://attack.mitre.org/techniques/T1070/002/
+author: dcrowder252
+date: 2026/05/25
+modified: 2026/05/25
+tags:
+    - attack.defense_evasion
+    - attack.t1070.002
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_truncate:
+        CommandLine|contains:
+            - 'truncate -s 0'
+            - '> /var/log/'
+    selection_delete:
+        Image|endswith:
+            - '/rm'
+        CommandLine|contains:
+            - '/var/log/'
+    condition: selection_truncate or selection_delete
+falsepositives:
+    - Legitimate log rotation or maintenance scripts that truncate or remove old log files
+    - Approved log management processes that clear logs as part of routine operations
+    - Establish a baseline of approved log management activity before alerting
+level: high
+fields:
+    - CommandLine
+    - ParentCommandLine
+    - User
+    - Hostname
