@@ -7,12 +7,26 @@
 
 ---
 
-## Query
+## Query — Tenants Without Windows Event Log Ingestion
+
+For environments where Windows Event Logs are not ingested into LogScale or NextGen SIEM, this query relies on native CrowdStrike telemetry to detect scheduled task modification activity.
 
 ```kusto
-#event_simpleName=ScheduledTaskRegistered
+#event_simpleName=ScheduledTaskModified
+| table(_time, ComputerName, UserName, TaskName, TaskExecCommand, TaskExecArguments)
+| sort(field=_time, order=desc)
+```
+
+---
+
+## Query — Tenants With Windows Event Log Ingestion
+
+For environments where Windows Event Logs are ingested into LogScale or NextGen SIEM, this query leverages EventID 4702 and the additional field visibility that comes with ingested event log data.
+
+```kusto
+#event_simpleName=ScheduledTaskModified
 | EventID = 4702
-| table(_time, ComputerName, UserName, SubjectUserName, SubjectDomainName, TaskName, TaskContent)
+| table(_time, ComputerName, UserName, SubjectUserName, SubjectDomainName, TaskName, TaskExecCommand, TaskExecArguments)
 | sort(field=_time, order=desc)
 ```
 
@@ -22,8 +36,8 @@
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - EventID 4702 requires the Audit Other Object Access Events policy to be enabled — this is not configured by default on all Windows systems
-- `TaskContent` contains the full XML definition of the updated task and should be reviewed for unexpected changes to task actions, triggers, or execution context
-- `SubjectUserName` and `SubjectDomainName` identify the account that modified the task
+- `TaskExecCommand` and `TaskExecArguments` surface the execution details of the updated task and should be reviewed for unexpected changes to task actions or execution context
+- `SubjectUserName` and `SubjectDomainName` are Windows Event Log fields and may not be available in all tenants
 - Modifications made outside of known software deployment or maintenance windows should be treated as suspicious
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known scheduled task baselines before alerting
