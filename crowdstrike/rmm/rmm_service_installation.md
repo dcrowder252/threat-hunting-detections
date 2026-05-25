@@ -10,7 +10,7 @@
 ## Query
 
 ```kusto
-#event_simpleName=ServiceInstalled
+#event_simpleName=CreateService
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
 | table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
 | sort(field=_time, order=desc)
@@ -21,7 +21,7 @@
 ## Expanded Version (Display Name + Image Path)
 
 ```kusto
-#event_simpleName=ServiceInstalled
+#event_simpleName=CreateService
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
 OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i
 | table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
@@ -33,6 +33,7 @@ OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i
 ## Notes
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
+- `CreateService` is used as the event name and was validated in testing — some tenants may surface this activity under `ServiceInstalled` instead, so adjust the event name as necessary for your environment
 - Field names may vary across tenants — adjust as necessary for your environment
 - `ServiceDisplayName` is the typical field for the service name in CrowdStrike telemetry
 - The expanded version also searches `ServiceImagePath`, which is useful if an attacker renames the service display name to something benign
