@@ -22,7 +22,10 @@ detection:
             - 'unset HISTFILE'
             - 'HISTFILE=/dev/null'
             - '.bash_history'
-    condition: selection
+    filter_locate:
+        Image|endswith:
+            - '/locate'
+    condition: selection and not filter_locate
 falsepositives:
     - Legitimate administrative scripts that manage shell history as part of approved workflows
     - Establish a baseline of approved history management activity before alerting
