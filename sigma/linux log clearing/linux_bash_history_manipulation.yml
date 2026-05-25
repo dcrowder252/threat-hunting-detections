@@ -1,0 +1,34 @@
+title: Linux Bash History Manipulation
+id: 4c8f2b1e-9d3a-4e7c-b6f5-3a1d0e8c2f9b
+status: experimental
+description: Detects commands associated with bash history manipulation or suppression on Linux systems. Attackers commonly attempt to clear or prevent shell history from being recorded to remove evidence of commands executed during an intrusion. This activity is rarely observed in legitimate administrative workflows and should be treated as suspicious when detected on production systems.
+references:
+    - https://attack.mitre.org/techniques/T1070/003/
+author: dcrowder252
+date: 2026/05/25
+modified: 2026/05/25
+tags:
+    - attack.defense_evasion
+    - attack.t1070.003
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        CommandLine|contains:
+            - 'history -c'
+            - 'HISTSIZE=0'
+            - 'HISTFILESIZE=0'
+            - 'unset HISTFILE'
+            - 'HISTFILE=/dev/null'
+            - '.bash_history'
+    condition: selection
+falsepositives:
+    - Legitimate administrative scripts that manage shell history as part of approved workflows
+    - Establish a baseline of approved history management activity before alerting
+level: high
+fields:
+    - CommandLine
+    - ParentCommandLine
+    - User
+    - Hostname
