@@ -18,6 +18,7 @@ detection:
         CommandLine|contains:
             - 'truncate -s 0'
             - '> /var/log/'
+            - '>> /var/log/'
     selection_delete:
         Image|endswith:
             - '/rm'
