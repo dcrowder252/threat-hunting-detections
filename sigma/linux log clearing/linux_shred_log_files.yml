@@ -1,0 +1,35 @@
+title: Linux Shred Command Used Against Log Files
+id: 2d6a4f8e-1c3b-4e9a-d5f7-8b0c2e5a1f4d
+status: experimental
+description: Detects the use of the shred command against log files or shell history files on Linux systems. Shred is designed to securely overwrite files to make recovery difficult and when used against log files represents an aggressive form of log tampering that may indicate a sophisticated attacker attempting to prevent forensic recovery of destroyed log data.
+references:
+    - https://attack.mitre.org/techniques/T1070/002/
+    - https://attack.mitre.org/techniques/T1070/003/
+author: dcrowder252
+date: 2026/05/25
+modified: 2026/05/25
+tags:
+    - attack.defense_evasion
+    - attack.t1070.002
+    - attack.t1070.003
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/shred'
+    selection_target:
+        CommandLine|contains:
+            - '/var/log/'
+            - '.bash_history'
+    condition: selection_process and selection_target
+falsepositives:
+    - Legitimate use of shred for secure deletion of approved files in environments with strict data handling requirements
+    - Establish a baseline of approved shred usage before alerting
+level: high
+fields:
+    - CommandLine
+    - ParentCommandLine
+    - User
+    - Hostname
