@@ -7,7 +7,21 @@
 
 ---
 
-## Query
+## Query — Tenants Without Windows Event Log Ingestion
+
+For environments where Windows Event Logs are not ingested into LogScale or NextGen SIEM, this query relies on native CrowdStrike telemetry to detect Event Log clearing activity.
+
+```kusto
+#event_simpleName=EventLogCleared
+| table(_time, ComputerName, UserName, UID)
+| sort(field=_time, order=desc)
+```
+
+---
+
+## Query — Tenants With Windows Event Log Ingestion
+
+For environments where Windows Event Logs are ingested into LogScale or NextGen SIEM, this query leverages EventID 104 and the additional field visibility that comes with ingested event log data.
 
 ```kusto
 #event_simpleName=EventLogCleared
@@ -21,9 +35,9 @@
 ## Notes
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
-- EventID 104 is generated whenever any Windows Event Log is cleared via the Event Log service
-- `Channel` identifies which specific log was cleared and is an important triage field
-- `SubjectUserName` and `SubjectDomainName` identify the account responsible for clearing the log
-- `SubjectLogonId` can be used to correlate with other events from the same logon session
+- `EventLogCleared` is the native CrowdStrike event generated when a Windows Event Log is cleared
+- EventID 104 is only available in tenants that ingest Windows Event Logs into LogScale or NextGen SIEM
+- `Channel` identifies which specific log was cleared and is an important triage field — only available in tenants with Windows Event Log ingestion
+- `SubjectUserName`, `SubjectDomainName`, and `SubjectLogonId` are Windows Event Log fields and may not be available in all tenants
 - Any occurrence outside of an approved maintenance window should be investigated immediately
 - Field names may vary across tenants — adjust as necessary for your environment
