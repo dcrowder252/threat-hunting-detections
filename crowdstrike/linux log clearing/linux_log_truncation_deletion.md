@@ -12,7 +12,7 @@
 ```kusto
 #event_simpleName=ProcessRollup2
 | event_platform=Lin
-| CommandLine = /(truncate\s+-s\s+0|>\s*\/var\/log\/|(rm\s+.*\/var\/log\/))/i
+| CommandLine = /(truncate\s+-s\s+0|>{1,2}\s*\/var\/log\/|(rm\s+.*\/var\/log\/))/i
 | table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
 | sort(field=_time, order=desc)
 ```
@@ -24,7 +24,7 @@
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `event_platform=Lin` filters results to Linux endpoints only
 - `ProcessRollup2` is the standard CrowdStrike event for process creation across all platforms
-- The regex covers truncation and deletion patterns targeting `/var/log/` in a single expression
+- `>{1,2}` matches both `>` and `>>` redirection operators — `>` overwrites file contents while `>>` appends and can be used to flood log files with junk data to obscure legitimate entries
 - The `rm` pattern is scoped to `/var/log/` to avoid matching unrelated file deletions
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Log rotation scripts may generate false positives — establish a baseline of approved log management activity before alerting
