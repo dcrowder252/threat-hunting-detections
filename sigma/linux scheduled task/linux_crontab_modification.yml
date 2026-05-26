@@ -1,0 +1,37 @@
+title: Linux Crontab Modification
+id: 3f1a7e2d-8c4b-4d9f-a6e3-1b5d0f2a8c7e
+status: experimental
+description: Detects invocations of the crontab command with modification or removal arguments on Linux systems. Attackers commonly use crontab to establish persistent execution under a compromised user account without requiring administrative privileges. This activity should be investigated when observed on systems where interactive user activity is not expected such as servers and cloud workloads.
+references:
+    - https://attack.mitre.org/techniques/T1053/003/
+author: dcrowder252
+date: 2026/05/26
+modified: 2026/05/26
+tags:
+    - attack.persistence
+    - attack.t1053.003
+    - attack.execution
+    - attack.t1059.004
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/crontab'
+    selection_args:
+        CommandLine|contains:
+            - 'crontab -e'
+            - 'crontab -r'
+            - 'crontab -l'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate administrative users managing their own crontab entries as part of approved workflows
+    - Software installations that create or modify crontab entries during setup
+    - Establish a baseline of approved crontab usage before alerting
+level: medium
+fields:
+    - CommandLine
+    - ParentCommandLine
+    - User
+    - Hostname
