@@ -1,0 +1,50 @@
+title: Linux Suspicious Cron Job Content
+id: 5c8d3f1a-7e2b-4c9f-d4a8-3f1e6b0d5c2a
+status: experimental
+description: Detects suspicious content patterns in cron job execution on Linux systems including references to scripting engines executing from unusual paths, encoded commands, download cradle patterns, and references to temporary directories. This rule targets the execution of cron jobs containing malicious patterns rather than the creation of cron entries and is useful for identifying persistence mechanisms that may have already been established.
+references:
+    - https://attack.mitre.org/techniques/T1053/003/
+    - https://attack.mitre.org/techniques/T1059.004/
+author: dcrowder252
+date: 2026/05/26
+modified: 2026/05/26
+tags:
+    - attack.persistence
+    - attack.t1053.003
+    - attack.execution
+    - attack.t1059.004
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_parent:
+        ParentImage|endswith:
+            - '/cron'
+            - '/crond'
+    selection_suspicious:
+        CommandLine|contains:
+            - '/tmp/'
+            - '/dev/shm/'
+            - 'base64'
+            - 'curl'
+            - 'wget'
+            - 'python -c'
+            - 'perl -e'
+            - 'bash -i'
+            - 'nc '
+            - 'ncat'
+            - '/dev/null'
+    condition: selection_parent and selection_suspicious
+falsepositives:
+    - Legitimate cron jobs that use curl or wget for approved automated downloads
+    - Approved scripts executed by cron that reference temporary directories for working files
+    - Establish a baseline of approved cron job content before alerting
+level: high
+fields:
+    - CommandLine
+    - ParentCommandLine
+    - ParentImage
+    - User
+    - Hostname
