@@ -1,0 +1,37 @@
+title: Linux System Cron Directory or File Modified
+id: 6d2b9f4a-1e7c-4a3f-b8d5-9c0e3f6b2a1d
+status: experimental
+description: Detects file creation or modification events in system-wide cron directories and files on Linux systems. Attackers with root access may drop malicious scripts into these locations to establish persistent execution under the root account. This activity should be treated as suspicious when observed outside of approved software deployment or maintenance processes.
+references:
+    - https://attack.mitre.org/techniques/T1053/003/
+author: dcrowder252
+date: 2026/05/26
+modified: 2026/05/26
+tags:
+    - attack.persistence
+    - attack.t1053.003
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection:
+        TargetFilename|contains:
+            - '/etc/cron.d/'
+            - '/etc/cron.daily/'
+            - '/etc/cron.hourly/'
+            - '/etc/cron.weekly/'
+            - '/etc/cron.monthly/'
+            - '/etc/crontab'
+            - '/var/spool/cron/crontabs/'
+    condition: selection
+falsepositives:
+    - Legitimate software installations that create cron entries as part of their setup process
+    - Approved administrative scripts that manage system-wide cron jobs
+    - Package manager activity installing or updating software that includes cron jobs
+    - Establish a baseline of approved cron directory activity before alerting
+level: medium
+fields:
+    - TargetFilename
+    - Image
+    - User
+    - Hostname
