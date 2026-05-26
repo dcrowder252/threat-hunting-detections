@@ -1,0 +1,32 @@
+# Linux Crontab Modification — CrowdStrike Falcon (LogScale)
+
+**Author:** dcrowder252
+**Date:** 2026/05/26
+**MITRE ATT&CK:** T1053.003, T1059.004
+**Reference:** https://attack.mitre.org/techniques/T1053/003/
+
+---
+
+## Query
+
+```kusto
+#event_simpleName=ProcessRollup2
+| event_platform=Lin
+| ImageFileName = /\/crontab$/i
+| CommandLine = /(crontab\s+(-e|-r|-l))/i
+| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=_time, order=desc)
+```
+
+---
+
+## Notes
+
+- This query is written for CrowdStrike Falcon LogScale (formerly Humio)
+- `event_platform=Lin` filters results to Linux endpoints only
+- `ProcessRollup2` is the standard CrowdStrike event for process creation across all platforms
+- The regex covers crontab modification, removal, and list arguments in a single expression
+- Pay particular attention to crontab modifications on servers and cloud workloads where interactive user activity is not expected
+- `ParentBaseFileName` surfaces the parent process for additional triage context
+- Field names may vary across tenants — adjust as necessary for your environment
+- Review results against known administrative baselines before alerting
