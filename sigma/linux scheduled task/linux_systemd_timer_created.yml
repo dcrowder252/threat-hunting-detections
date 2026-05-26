@@ -1,0 +1,37 @@
+title: Linux Systemd Timer or Service Unit Created
+id: 9b4e2a7f-3d1c-4f8b-e5a6-2c7d0f4b9e1a
+status: experimental
+description: Detects the creation of new systemd timer or service unit files in systemd directories on Linux systems. Attackers may create malicious timer and service unit files to establish persistent execution that integrates with the systemd framework and survives reboots. Newly created unit files should be reviewed for suspicious content including references to unusual binaries, encoded commands, or network connections.
+references:
+    - https://attack.mitre.org/techniques/T1053/006/
+author: dcrowder252
+date: 2026/05/26
+modified: 2026/05/26
+tags:
+    - attack.persistence
+    - attack.t1053.006
+logsource:
+    category: file_event
+    product: linux
+detection:
+    selection_path:
+        TargetFilename|contains:
+            - '/etc/systemd/system/'
+            - '/usr/lib/systemd/system/'
+            - '/run/systemd/system/'
+    selection_extension:
+        TargetFilename|endswith:
+            - '.timer'
+            - '.service'
+    condition: selection_path and selection_extension
+falsepositives:
+    - Legitimate software installations that create systemd unit files as part of their setup process
+    - Approved administrative scripts that create or modify systemd timer or service units
+    - Package manager activity installing or updating software that includes systemd units
+    - Establish a baseline of approved systemd unit file activity before alerting
+level: medium
+fields:
+    - TargetFilename
+    - Image
+    - User
+    - Hostname
