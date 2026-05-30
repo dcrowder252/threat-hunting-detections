@@ -22,8 +22,7 @@ index=linux sourcetype="linux_audit" OR sourcetype="syslog"
     CommandLine="*perl -e*" OR
     CommandLine="*bash -i*" OR
     CommandLine="*nc *" OR
-    CommandLine="*ncat*" OR
-    CommandLine="*/dev/null*"
+    CommandLine="*ncat*"
 )
 | table _time, host, user, CommandLine, ParentCommandLine, ParentImage
 | sort -_time
