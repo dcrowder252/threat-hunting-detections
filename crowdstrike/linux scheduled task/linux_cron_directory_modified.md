@@ -10,7 +10,7 @@
 ## Query
 
 ```kusto
-#event_simpleName=FileWritten
+#event_simpleName=NewScriptWritten
 | event_platform=Lin
 | TargetFileName = /(\/etc\/cron\.(d|daily|hourly|weekly|monthly)\/|\/etc\/crontab|\/var\/spool\/cron\/crontabs\/)/i
 | table(_time, ComputerName, UserName, TargetFileName, ImageFileName)
@@ -23,7 +23,7 @@
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `event_platform=Lin` filters results to Linux endpoints only
-- `FileWritten` is the CrowdStrike event for file creation and modification activity
+- `NewScriptWritten` is used as the event name and was validated in testing — some tenants may surface this activity under `FileWritten` instead, so adjust the event name as necessary for your environment
 - The regex covers all common system cron directory and file locations in a single expression
 - Package manager activity may generate false positives when installing or updating software that includes cron jobs — baseline approved activity before alerting
 - `ImageFileName` surfaces the process that wrote the file for additional triage context
