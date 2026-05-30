@@ -35,7 +35,6 @@ detection:
             - 'bash -i'
             - 'nc '
             - 'ncat'
-            - '/dev/null'
     condition: selection_parent and selection_suspicious
 falsepositives:
     - Legitimate cron jobs that use curl or wget for approved automated downloads
