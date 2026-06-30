@@ -1,6 +1,6 @@
 # Threat Hunting & Detection Engineering Portfolio
 
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--06-blue)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--05--30-blue)
 ![GitHub Repo Size](https://img.shields.io/github/repo-size/dcrowder252/threat-hunting-detections)
 
 ## Table of Contents
@@ -23,6 +23,7 @@ It contains:
 - Vendor-agnostic detection rules (Sigma)
 - Platform-specific detection queries (Splunk, KQL, CrowdStrike)
 - Documented threat hunting investigations
+- Intel-driven hunts based on real-world threat reporting
 - Technical research and detection methodology
 
 The goal of this project is to translate real-world attacker behavior into actionable detection logic across enterprise security platforms.
@@ -46,14 +47,17 @@ The goal of this project is to translate real-world attacker behavior into actio
 The project is organized into modular detection engineering domains:
 
 - `sigma/` — Vendor-agnostic detection rules
+  - `sigma/intel_hunts/` — Sigma rules derived from real-world threat intelligence reporting
 - `hunts/` — Documented threat hunting investigations
+  - `hunts/intel_hunts/` — Hunt documents built directly from threat intelligence articles and advisories
 - `research/` — Technical analysis and threat research
   - Threat research and behavioral analysis that informs hunting hypotheses and detection development.
-    - [Remote Management Tool Abuse in Enterprise Environments][def]
 - `splunk/` — Splunk-specific detection queries
+  - `splunk/intel_hunts/` — Splunk queries derived from real-world threat intelligence reporting
 - `kql/` — Microsoft Sentinel / Defender queries
+  - `kql/intel_hunts/` — KQL queries derived from real-world threat intelligence reporting
 - `crowdstrike/` — CrowdStrike LogScale queries
-
+  - `crowdstrike/intel_hunts/` — CrowdStrike LogScale queries derived from real-world threat intelligence reporting
 
 Each folder contains documentation and artifacts aligned to detection engineering workflows.
 
@@ -63,12 +67,16 @@ Each folder contains documentation and artifacts aligned to detection engineerin
 
 My workflow typically follows this progression:
 
-Research → Hunt → Sigma Detection → (Splunk → Crowdstrike → KQL  )
+**Standard Hunts:**
+Research → Hunt → Sigma Detection → (Splunk → CrowdStrike → KQL)
+
+**Intel Hunts:**
+Threat Intelligence Report → Hunt Document → Sigma Detection → (Splunk → CrowdStrike → KQL)
 
 Where possible, detections are:
 
 - Mapped to MITRE ATT&CK techniques
-- Tested in lab environments
+- Tested against real telemetry
 - Converted across multiple platforms
 
 ---
@@ -90,7 +98,5 @@ It serves as both a technical portfolio and a foundation for future professional
 
 Daniel Crowder - datello676@gmail.com
 Huntsville, Alabama  
-Threat Hunting | Detection Engineering 
+Threat Hunting | Detection Engineering
 
-
-[def]: research/rmm_abuse_in_enterprise.md
