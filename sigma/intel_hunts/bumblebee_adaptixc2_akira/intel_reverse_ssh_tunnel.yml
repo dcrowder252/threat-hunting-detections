@@ -1,0 +1,37 @@
+title: Reverse SSH Tunnel Established via SSH.exe
+id: 8c4d2f6a-1e9b-4a3f-d7c5-6b0e4f8a2c1d
+status: experimental
+description: Detects the use of the built-in Windows SSH client to establish a reverse port forward tunnel using the -R flag. This technique was observed in the BumbleBee/Akira campaign where the threat actor used a reverse SSH tunnel to proxy RDP traffic to external infrastructure and bypass firewall restrictions. Reverse SSH tunnels have very few legitimate administrative use cases and should be treated as suspicious when observed on production systems.
+references:
+    - https://attack.mitre.org/techniques/T1572/
+    - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
+author: dcrowder252
+date: 2026/07/06
+modified: 2026/07/06
+tags:
+    - attack.command_and_control
+    - attack.t1572
+    - attack.lateral_movement
+    - attack.t1021.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\ssh.exe'
+    selection_args:
+        CommandLine|contains:
+            - ' -R '
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate administrative use of reverse SSH tunnels for approved remote access workflows
+    - DevOps or infrastructure teams using SSH tunneling as part of approved automation
+    - Establish a baseline of approved SSH usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
