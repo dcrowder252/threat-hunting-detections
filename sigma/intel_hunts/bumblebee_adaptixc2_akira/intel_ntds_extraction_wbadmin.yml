@@ -1,0 +1,35 @@
+title: NTDS.dit Extraction via wbadmin.exe
+id: 5e2a9f3c-7b1d-4f6e-c8a4-3d0f7e2b1a9c
+status: experimental
+description: Detects the use of wbadmin.exe to create a backup containing ntds.dit, the Active Directory database file. This technique was observed in the BumbleBee/Akira campaign where the threat actor used wbadmin.exe to extract ntds.dit alongside the SYSTEM and SECURITY registry hives to enable offline credential extraction. This activity is rarely legitimate outside of approved backup operations and should be treated as a high priority alert when observed.
+references:
+    - https://attack.mitre.org/techniques/T1003/003/
+    - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
+author: dcrowder252
+date: 2026/07/06
+modified: 2026/07/06
+tags:
+    - attack.credential_access
+    - attack.t1003.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith:
+            - '\wbadmin.exe'
+    selection_args:
+        CommandLine|contains:
+            - 'ntds.dit'
+            - 'start backup'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate backup operations that include the NTDS directory as part of an approved domain controller backup workflow
+    - Establish a baseline of approved wbadmin.exe usage on domain controllers before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
