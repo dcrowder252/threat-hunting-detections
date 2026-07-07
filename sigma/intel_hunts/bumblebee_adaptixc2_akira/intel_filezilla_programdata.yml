@@ -1,0 +1,35 @@
+title: FileZilla Installer Executed from ProgramData
+id: 7d3e1f9b-4a2c-4e8d-b5f6-1c0d4f7e3b8a
+status: experimental
+description: Detects the execution of a FileZilla installer from the C:\ProgramData\ directory. This technique was observed in the BumbleBee/Akira campaign where the threat actor transferred the FileZilla installer via RDP clipboard and executed it from ProgramData to establish an SFTP exfiltration channel. Legitimate FileZilla installations typically originate from user download directories or approved software deployment paths rather than ProgramData.
+references:
+    - https://attack.mitre.org/techniques/T1048/001/
+    - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
+author: dcrowder252
+date: 2026/07/06
+modified: 2026/07/06
+tags:
+    - attack.exfiltration
+    - attack.t1048.001
+    - attack.command_and_control
+    - attack.t1219
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|contains:
+            - '\ProgramData\'
+        Image|contains:
+            - 'FileZilla'
+    condition: selection_process
+falsepositives:
+    - Legitimate software deployment processes that stage FileZilla in ProgramData as part of an approved installation workflow
+    - Establish a baseline of approved FileZilla installation activity before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
