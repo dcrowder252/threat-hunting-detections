@@ -1,4 +1,4 @@
-# Shadow Copy Deletion via WMI and PowerShell — Splunk SPL
+# Shadow Copy Deletion via PowerShell — Splunk SPL
 
 **Author:** dcrowder252
 **Date:** 2026/07/06
