@@ -1,0 +1,36 @@
+title: Windows Binary Executing From Non-Standard Path
+id: 1a3f7e2d-9c4b-4e8f-b6d5-2c0a1f9e3b7d
+status: experimental
+description: Detects legitimate Windows binaries executing from non-standard locations such as %TEMP%, %APPDATA%, or other user-writable directories. This technique was observed in the BumbleBee campaign where consent.exe and WAB.exe were staged outside of their expected System32 location to facilitate DLL sideloading. Legitimate Windows binaries executing outside of their expected paths should be treated as suspicious and investigated promptly.
+references:
+    - https://attack.mitre.org/techniques/T1574/001/
+    - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
+author: dcrowder252
+date: 2026/07/06
+modified: 2026/07/06
+tags:
+    - attack.defense_evasion
+    - attack.t1574.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\consent.exe'
+            - '\WAB.exe'
+    filter_legit:
+        Image|startswith:
+            - 'C:\Windows\System32\'
+            - 'C:\Windows\SysWOW64\'
+    condition: selection and not filter_legit
+falsepositives:
+    - Legitimate software installations that may temporarily stage Windows binaries in non-standard locations
+    - Establish a baseline of expected execution paths before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
