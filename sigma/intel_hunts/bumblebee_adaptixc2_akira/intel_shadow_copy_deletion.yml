@@ -1,4 +1,4 @@
-title: Shadow Copy Deletion via WMI and PowerShell
+title: Shadow Copy Deletion via PowerShell
 id: 3b7f1e4a-2d8c-4b9f-a6e3-5c1d0f3b8e2a
 status: experimental
 description: Detects PowerShell commands used to delete Volume Shadow Copies via WMI. This technique was observed in the BumbleBee/Akira campaign where the Akira ransomware binary automated shadow copy deletion upon execution to prevent recovery of encrypted files. This activity is a strong ransomware precursor indicator and should be treated as a critical alert when observed.
