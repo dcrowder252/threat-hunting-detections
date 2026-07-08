@@ -27,6 +27,7 @@ CommandLine="*Remove-WmiObject*"
 - Adjust index and sourcetype values to match your environment
 - EventCode 4688 requires command line auditing to be enabled
 - EventCode 1 is Sysmon process creation (recommended for better coverage)
+- Both consecutive CommandLine conditions act as an implied AND in Splunk — both strings must be present in the command line for the event to match
 - This combination of Win32_Shadowcopy and Remove-WmiObject is a strong ransomware precursor indicator and should be treated as a critical alert
 - Field names may vary depending on your Splunk configuration and data inputs — adjust as necessary to conform to your data set
 - Review results against known administrative baselines before alerting
