@@ -13,8 +13,8 @@ For environments where Windows Event Logs are not ingested into LogScale or Next
 
 ```kusto
 #event_simpleName=EventLogCleared
-| table(_time, ComputerName, UserName, UID)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, UID)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---
@@ -26,8 +26,8 @@ For environments where Windows Event Logs are ingested into LogScale or NextGen 
 ```kusto
 #event_simpleName=EventLogCleared
 | EventID = 1102
-| table(_time, ComputerName, UserName, SubjectUserName, SubjectDomainName, SubjectLogonId)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, SubjectUserName, SubjectDomainName, SubjectLogonId)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

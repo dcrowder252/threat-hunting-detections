@@ -15,8 +15,8 @@
 | ImageFileName = /(powershell\.exe|pwsh\.exe)$/i
 | CommandLine = /Win32_Shadowcopy/i
 | CommandLine = /Remove-WmiObject/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

@@ -14,8 +14,8 @@
 | event_platform=Lin
 | CommandLine = /(history\s+-c|HISTSIZE=0|HISTFILESIZE=0|unset\s+HISTFILE|HISTFILE=\/dev\/null|\.bash_history)/i
 | ImageFileName != /\/locate$/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

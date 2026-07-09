@@ -13,8 +13,8 @@
 #event_simpleName=ProcessRollup2
 | ImageFileName = /(powershell\.exe|pwsh\.exe)$/i
 | CommandLine = /(-ExecutionPolicy\s+(Bypass|Unrestricted|Hidden)|-ep\s+(bypass|unrestricted|hidden))/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

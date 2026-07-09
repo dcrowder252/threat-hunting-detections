@@ -14,8 +14,8 @@
 #event_simpleName=ProcessRollup2
 | ImageFileName = /\\ProgramData\\/i
 | ImageFileName = /FileZilla/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---
@@ -25,8 +25,8 @@
 ```kusto
 #event_simpleName=NetworkConnectIP4
 | RemoteAddressIP4 = "185.174.100.203"
-| table(_time, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

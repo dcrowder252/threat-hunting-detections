@@ -13,8 +13,8 @@
 #event_simpleName=ProcessRollup2
 | ImageFileName = /(powershell\.exe|pwsh\.exe)$/i
 | CommandLine = /(Register-ScheduledTask|New-ScheduledTaskAction|New-ScheduledTask|Set-ScheduledTask)/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

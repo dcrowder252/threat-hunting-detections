@@ -13,8 +13,8 @@
 #event_simpleName=ProcessRollup2
 | ImageFileName = /schtasks\.exe$/i
 | CommandLine = /(\s\/create\s|\s\/change\s)/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

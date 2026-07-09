@@ -14,8 +14,8 @@
 | event_platform=Lin
 | ImageFileName = /\/shred$/i
 | CommandLine = /(\/var\/log\/|\.bash_history)/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

@@ -13,8 +13,8 @@
 ```kusto
 #event_simpleName=NetworkConnectIP4
 | RemoteAddressIP4 = /(192\.121\.22\.94|109\.205\.195\.211|188\.40\.187\.145|171\.22\.183\.43|194\.127\.178\.21|172\.96\.137\.160|193\.242\.184\.150|185\.174\.100\.203)/
-| table(_time, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

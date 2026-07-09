@@ -13,8 +13,8 @@ For environments where Windows Event Logs are not ingested into LogScale or Next
 
 ```kusto
 #event_simpleName=ScheduledTaskModified
-| table(_time, ComputerName, UserName, TaskName, TaskExecCommand, TaskExecArguments)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, TaskName, TaskExecCommand, TaskExecArguments)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---
@@ -26,8 +26,8 @@ For environments where Windows Event Logs are ingested into LogScale or NextGen 
 ```kusto
 #event_simpleName=ScheduledTaskModified
 | EventID = 4702
-| table(_time, ComputerName, UserName, SubjectUserName, SubjectDomainName, TaskName, TaskExecCommand, TaskExecArguments)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, SubjectUserName, SubjectDomainName, TaskName, TaskExecCommand, TaskExecArguments)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

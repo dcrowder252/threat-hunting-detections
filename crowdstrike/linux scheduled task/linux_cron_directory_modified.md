@@ -13,8 +13,8 @@
 #event_simpleName=NewScriptWritten
 | event_platform=Lin
 | TargetFileName = /(\/etc\/cron\.(d|daily|hourly|weekly|monthly)\/|\/etc\/crontab|\/var\/spool\/cron\/crontabs\/)/i
-| table(_time, ComputerName, UserName, TargetFileName, ImageFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, TargetFileName, ImageFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

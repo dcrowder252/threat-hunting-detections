@@ -14,8 +14,8 @@
 | event_platform=Lin
 | TargetFileName = /(\/etc\/systemd\/system\/|\/usr\/lib\/systemd\/system\/|\/run\/systemd\/system\/)/i
 | TargetFileName = /\.(timer|service)$/i
-| table(_time, ComputerName, UserName, TargetFileName, ImageFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, TargetFileName, ImageFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

@@ -12,8 +12,8 @@
 ```kusto
 #event_simpleName=CreateService
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
-| table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---
@@ -24,8 +24,8 @@
 #event_simpleName=CreateService
 | ServiceDisplayName = /AnyDesk|TeamViewer|ScreenConnect|Atera Agent|SplashtopRemoteService/i
 OR ServiceImagePath = /AnyDesk|TeamViewer|ScreenConnect|Atera|Splashtop/i
-| table(_time, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ServiceDisplayName, ServiceImagePath)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---

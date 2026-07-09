@@ -14,8 +14,8 @@
 | event_platform=Lin
 | ParentBaseFileName = /(cron|crond)$/i
 | CommandLine = /(\/tmp\/|\/dev\/shm\/|base64|curl|wget|python\s+-c|perl\s+-e|bash\s+-i|nc\s+|ncat)/i
-| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=_time, order=desc)
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
 ```
 
 ---
