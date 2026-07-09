@@ -13,7 +13,7 @@
 ```kusto
 #event_simpleName=NetworkConnectIP4
 | RemoteAddressIP4 = /(192\.121\.22\.94|109\.205\.195\.211|188\.40\.187\.145|171\.22\.183\.43|194\.127\.178\.21|172\.96\.137\.160|193\.242\.184\.150|185\.174\.100\.203)/
-| table(@timestamp, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
+| table(@timestamp, ComputerName, ContextBaseFileName, RemoteAddressIP4, RemotePort)
 | sort(field=@timestamp, order=desc)
 ```
 
@@ -36,7 +36,7 @@
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `NetworkConnectIP4` is the standard CrowdStrike event for outbound network connections
-- `ImageFileName` identifies the process making the outbound connection — useful for triage context
+- `ContextBaseFileName` identifies the process making the outbound connection — UserName and ImageFileName are not available in network connect events
 - IOC fidelity decays over time — these IPs may no longer be associated with malicious infrastructure depending on when this search is run
 - Always validate IOCs against current threat intelligence before using for alerting
 - Field names may vary across tenants — adjust as necessary for your environment
