@@ -1,7 +1,7 @@
-title: Windows Binary Executing From Non-Standard Path
+title: consent.exe Executing From Non-Standard Path
 id: 1a3f7e2d-9c4b-4e8f-b6d5-2c0a1f9e3b7d
 status: experimental
-description: Detects legitimate Windows binaries executing from non-standard locations such as %TEMP%, %APPDATA%, or other user-writable directories. This technique was observed in the BumbleBee campaign where consent.exe and WAB.exe were staged outside of their expected System32 location to facilitate DLL sideloading. Legitimate Windows binaries executing outside of their expected paths should be treated as suspicious and investigated promptly.
+description: Detects consent.exe executing from a non-standard location outside of System32 and WinSxS. This technique was observed in the BumbleBee campaign where consent.exe was staged in a temp directory to facilitate DLL sideloading of a malicious msimg32.dll.
 references:
     - https://attack.mitre.org/techniques/T1574/001/
     - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
@@ -16,17 +16,52 @@ logsource:
     product: windows
 detection:
     selection:
-        Image|endswith:
-            - '\consent.exe'
-            - '\WAB.exe'
+        Image|endswith: '\consent.exe'
     filter_legit:
-        Image|startswith:
-            - 'C:\Windows\System32\'
-            - 'C:\Windows\SysWOW64\'
+        Image|contains:
+            - '\Windows\System32\'
+            - '\Windows\WinSxS\'
     condition: selection and not filter_legit
 falsepositives:
-    - Legitimate software installations that may temporarily stage Windows binaries in non-standard locations
+    - Legitimate software installations that may temporarily stage consent.exe in non-standard locations
     - Establish a baseline of expected execution paths before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
+
+---
+
+title: wab.exe Executing From Non-Standard Path
+id: 4f2e8b1a-7d3c-4a9e-c5f8-6b1d0e3a7f2c
+status: experimental
+description: Detects wab.exe executing from a non-standard location. The legitimate path for wab.exe is Program Files\Windows Mail — not System32. This technique was observed in the BumbleBee campaign where wab.exe was used as a sideloading host from AppData. WinSxS and Program Files\Windows Mail are excluded as known legitimate locations.
+references:
+    - https://attack.mitre.org/techniques/T1574/001/
+    - https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/
+author: dcrowder252
+date: 2026/07/06
+modified: 2026/07/06
+tags:
+    - attack.defense_evasion
+    - attack.t1574.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wab.exe'
+    filter_legit:
+        Image|contains:
+            - '\Program Files\Windows Mail\'
+            - '\Windows\WinSxS\'
+    condition: selection and not filter_legit
+falsepositives:
+    - Legitimate use of wab.exe from approved paths not covered by the exclusion filter
+    - Establish a baseline of expected wab.exe execution paths before alerting
 level: high
 fields:
     - Image
