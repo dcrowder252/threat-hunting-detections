@@ -12,9 +12,9 @@
 ```kusto
 #event_simpleName=ProcessRollup2
 | ImageFileName = /(powershell\.exe|pwsh\.exe)$/i
-| ParentBaseFileName = /(winword\.exe|excel\.exe|powerpnt\.exe|outlook\.exe|mshta\.exe|wscript\.exe|cscript\.exe|explorer\.exe)$/i
-| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=@timestamp, order=desc)
+| ParentBaseFileName = /(winword\.exe|excel\.exe|powerpnt\.exe|outlook\.exe|mshta\.exe|wscript\.exe|cscript\.exe)$/i
+| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=_time, order=desc)
 ```
 
 ---
@@ -24,7 +24,6 @@
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `ProcessRollup2` is the standard CrowdStrike event for process creation
 - The regex covers all suspicious parent processes from the hunt document in a single clean expression
-- `explorer.exe` as a parent process may have legitimate context depending on the environment — review in conjunction with command-line arguments
 - Office application parent processes spawning PowerShell should be treated as high priority and investigated immediately
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment
