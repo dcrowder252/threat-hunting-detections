@@ -29,7 +29,7 @@ Image="*\\schtasks.exe"
 - EventCode 4688 requires command line auditing to be enabled
 - EventCode 1 is Sysmon process creation (recommended for better coverage)
 - Spaces surrounding `/create` and `/change` are intentional to avoid partial string matches on other schtasks arguments
-- Review the full command-line arguments for unusual execution paths, encoded commands, or references to scripting engines
-- Review ParentImage to understand what process invoked schtasks.exe — scripted or automated invocation is a strong indicator of malicious activity
+- The `/change` flag can generate significant noise in most environments — consider removing it and hunting `/create` only to reduce unwanted results
+- Removing false positives based on the parent process (`ParentImage`) may be necessary to further cut down on noise — common noisy parent processes include software update managers, endpoint agents, and Office components
 - Field names may vary depending on your Splunk configuration and data inputs
 - Review results against known administrative baselines before alerting
