@@ -21,7 +21,6 @@ EventCode=4688 OR EventCode=1
     ParentImage="*\\mshta.exe" OR
     ParentImage="*\\wscript.exe" OR
     ParentImage="*\\cscript.exe" OR
-    ParentImage="*\\explorer.exe"
 )
 | table _time, ComputerName, User, Image, CommandLine, ParentImage, ParentCommandLine
 | sort -_time
@@ -34,7 +33,6 @@ EventCode=4688 OR EventCode=1
 - Adjust index and sourcetype values to match your environment
 - EventCode 4688 requires command line auditing to be enabled
 - EventCode 1 is Sysmon process creation (recommended for better coverage)
-- `explorer.exe` as a parent process may have legitimate context depending on the environment — review in conjunction with command-line arguments
 - Office application parent processes spawning PowerShell should be treated as high priority and investigated immediately
 - Field names may vary depending on your Splunk configuration and data inputs
 - Review results against known administrative baselines before alerting
