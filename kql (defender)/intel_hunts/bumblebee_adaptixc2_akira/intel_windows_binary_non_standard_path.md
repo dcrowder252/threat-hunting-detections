@@ -8,12 +8,24 @@
 
 ---
 
-## Query
+## Query — consent.exe Executing from Non-Standard Path
 
 ```kql
 DeviceProcessEvents
-| where FileName in~ ("consent.exe", "WAB.exe")
-| where not(FolderPath startswith @"C:\Windows\System32" or FolderPath startswith @"C:\Windows\SysWOW64")
+| where FileName =~ "consent.exe"
+| where not(FolderPath startswith @"C:\Windows\System32" or FolderPath contains @"\Windows\WinSxS\")
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName
+| sort by Timestamp desc
+```
+
+---
+
+## Query — wab.exe Executing from Non-Standard Path
+
+```kql
+DeviceProcessEvents
+| where FileName =~ "wab.exe"
+| where not(FolderPath startswith @"C:\Program Files\Windows Mail" or FolderPath contains @"\Windows\WinSxS\")
 | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName
 | sort by Timestamp desc
 ```
@@ -23,7 +35,8 @@ DeviceProcessEvents
 ## Notes
 
 - This query is written for Microsoft Defender Advanced Hunting (KQL)
-- The exclusion filter removes legitimate execution from System32 and SysWOW64 — any remaining hits represent execution from unexpected paths
+- WinSxS is excluded in both queries as Windows stores side-by-side component copies there and generates significant false positive noise
+- wab.exe is a Windows Address Book binary — its legitimate execution path is Program Files\Windows Mail not System32, so System32 is not used as an exclusion here
 - `FolderPath` identifies where the binary was executed from and is the key triage field for this detection
 - `InitiatingProcessFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment
