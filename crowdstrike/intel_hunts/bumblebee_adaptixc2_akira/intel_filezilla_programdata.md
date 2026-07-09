@@ -25,7 +25,7 @@
 ```kusto
 #event_simpleName=NetworkConnectIP4
 | RemoteAddressIP4 = "185.174.100.203"
-| table(@timestamp, ComputerName, UserName, ImageFileName, RemoteAddressIP4, RemotePort)
+| table(@timestamp, ComputerName, ContextBaseFileName, RemoteAddressIP4, RemotePort)
 | sort(field=@timestamp, order=desc)
 ```
 
@@ -37,7 +37,8 @@
 - `ProcessRollup2` is the standard CrowdStrike event for process creation
 - Both `ProgramData` and `FileZilla` must be present in the image path — consecutive filter lines act as an AND condition in LogScale
 - The IOC query uses `NetworkConnectIP4` to hunt for outbound connections to the known exfiltration server observed in this campaign
+- `ContextBaseFileName` identifies the process making the outbound connection — `UserName` and `ImageFileName` are not available in network connect events
 - IOC fidelity decays over time — validate against current threat intelligence before using for alerting
-- `ParentBaseFileName` surfaces the parent process for additional triage context
+- `ParentBaseFileName` surfaces the parent process for additional triage context in the main query
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known administrative baselines before alerting
