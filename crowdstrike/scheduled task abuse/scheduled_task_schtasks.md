@@ -23,8 +23,9 @@
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `ProcessRollup2` is the standard CrowdStrike event for process creation
-- The regex matches both `/create` and `/change` arguments with surrounding whitespace to avoid partial string matches on other schtasks arguments
+- The regex matches both `/create` and `/change` arguments with surrounding whitespace to avoid partial string matches
+- The `/change` flag can generate significant noise in most environments — consider removing it and hunting `/create` only to reduce unwanted results
+- Removing false positives based on `ParentBaseFileName` may be necessary to further cut down on noise — common noisy parent processes include software update managers, endpoint agents, and Office components
 - `ParentBaseFileName` surfaces the parent process for additional triage context
-- Review the full command-line arguments for unusual execution paths, encoded commands, or references to scripting engines
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known administrative baselines before alerting
