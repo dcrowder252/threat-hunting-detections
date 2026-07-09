@@ -55,7 +55,7 @@ Hunt for legitimate Windows binaries executing from non-standard locations such 
 Specific binaries of interest from this report:
 
 - `consent.exe` executing outside of `C:\Windows\System32\`
-- `WAB.exe` or renamed variants executing from `%APPDATA%`
+- `WAB.exe` or renamed variants executing from `%APPDATA%` — note that `wab.exe` is a legitimate Windows Address Book binary whose normal execution path is `Program Files\Windows Mail`, not System32. Detections should exclude `Program Files\Windows Mail` and `WinSxS` as known legitimate locations rather than System32
 
 NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
