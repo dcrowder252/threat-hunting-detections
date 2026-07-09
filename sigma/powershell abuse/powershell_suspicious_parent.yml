@@ -33,11 +33,9 @@ detection:
             - '\mshta.exe'
             - '\wscript.exe'
             - '\cscript.exe'
-            - '\explorer.exe'
     condition: selection_process and selection_parent
 falsepositives:
     - Legitimate macros or scripts launched through Office applications in environments where this is an approved workflow
-    - Explorer-initiated PowerShell may have legitimate context depending on the environment — review in conjunction with command-line arguments
     - Known automation tools that invoke PowerShell through scripting engines — establish a baseline of approved usage before alerting
 level: high
 fields:
