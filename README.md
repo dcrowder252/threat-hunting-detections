@@ -1,6 +1,6 @@
 # Threat Hunting & Detection Engineering Portfolio
 
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--05--30-blue)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--07--06-blue)
 ![GitHub Repo Size](https://img.shields.io/github/repo-size/dcrowder252/threat-hunting-detections)
 
 ## Table of Contents
