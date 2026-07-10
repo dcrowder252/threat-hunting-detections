@@ -32,6 +32,7 @@ DeviceProcessEvents
 - The `DeviceInfo` subquery filters results to Linux endpoints only
 - `InitiatingProcessFileName` surfaces the parent process for additional triage context
 - Pay particular attention to crontab modifications on servers and cloud workloads where interactive user activity is not expected
+- The `-l` flag lists existing crontab entries and can generate significant noise in most environments — consider removing it and focusing on `-e` and `-r` only to reduce unwanted results
 - MDE Linux coverage requires Microsoft Defender for Endpoint to be deployed on Linux endpoints
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known administrative baselines before alerting

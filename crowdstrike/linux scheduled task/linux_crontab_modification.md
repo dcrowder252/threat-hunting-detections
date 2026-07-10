@@ -26,7 +26,7 @@
 - `event_platform=Lin` filters results to Linux endpoints only
 - `ProcessRollup2` is the standard CrowdStrike event for process creation across all platforms
 - The regex covers crontab modification, removal, and list arguments in a single expression
-- Pay particular attention to crontab modifications on servers and cloud workloads where interactive user activity is not expected
+- The `-l` flag lists existing crontab entries and can generate significant noise in most environments — consider removing it and focusing on `-e` and `-r` only to reduce unwanted results
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known administrative baselines before alerting

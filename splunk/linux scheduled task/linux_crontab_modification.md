@@ -29,5 +29,6 @@ Image="*/crontab"
 - Common Linux log sourcetypes include `linux_audit`, `syslog`, `linux_secure`, and `auditd` — adjust based on your Splunk configuration
 - Auditd is recommended as the primary data source for Linux process execution telemetry as it provides richer command-line visibility than syslog alone
 - Pay particular attention to crontab modifications on servers and cloud workloads where interactive user activity is not expected
+- The `-l` flag lists existing crontab entries and can generate significant noise in most environments — consider removing it and focusing on `-e` and `-r` only to reduce unwanted results
 - Field names for Linux logs may differ significantly from Windows logs — adjust based on your specific log source and parsing configuration
 - Review results against known administrative baselines before alerting
