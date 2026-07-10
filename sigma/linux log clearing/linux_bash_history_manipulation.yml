@@ -1,7 +1,7 @@
 title: Linux Bash History Manipulation
 id: 4c8f2b1e-9d3a-4e7c-b6f5-3a1d0e8c2f9b
 status: experimental
-description: Detects commands associated with bash history manipulation or suppression on Linux systems. Attackers commonly attempt to clear or prevent shell history from being recorded to remove evidence of commands executed during an intrusion. This activity is rarely observed in legitimate administrative workflows and should be treated as suspicious when detected on production systems.
+description: Detects commands associated with bash history manipulation on Linux systems including clearing, unsetting, redirecting, deleting, truncating, and shredding the .bash_history file. Attackers commonly attempt to remove evidence of commands executed during an intrusion by targeting the bash history file through multiple methods.
 references:
     - https://attack.mitre.org/techniques/T1070/003/
 author: dcrowder252
@@ -21,11 +21,10 @@ detection:
             - 'HISTFILESIZE=0'
             - 'unset HISTFILE'
             - 'HISTFILE=/dev/null'
-            - '.bash_history'
-    filter_locate:
-        Image|endswith:
-            - '/locate'
-    condition: selection and not filter_locate
+            - 'rm .*\.bash_history'
+            - 'truncate -s 0 .*\.bash_history'
+            - 'shred .*\.bash_history'
+    condition: selection
 falsepositives:
     - Legitimate administrative scripts that manage shell history as part of approved workflows
     - Establish a baseline of approved history management activity before alerting

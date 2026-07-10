@@ -20,7 +20,9 @@ DeviceProcessEvents
     "HISTFILESIZE=0",
     "unset HISTFILE",
     "HISTFILE=/dev/null",
-    ".bash_history"
+    "rm .*\.bash_history",
+    "truncate -s 0 .*\.bash_history",
+    "shred .*\.bash_history"
 )
 | where not(ProcessCommandLine has "locate")
 | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
@@ -33,6 +35,7 @@ DeviceProcessEvents
 
 - This query is written for Microsoft Defender Advanced Hunting (KQL)
 - The `DeviceInfo` subquery filters results to Linux endpoints only
+- The query consolidates multiple bash history tampering techniques into a single search — clearing, unsetting, redirecting, deleting, truncating, and shredding `.bash_history`
 - `locate` is explicitly excluded as it commonly searches for `.bash_history` files as part of normal filesystem indexing activity and generates significant false positive noise
 - `InitiatingProcessFileName` surfaces the parent process for additional triage context
 - MDE Linux coverage requires Microsoft Defender for Endpoint to be deployed on Linux endpoints
