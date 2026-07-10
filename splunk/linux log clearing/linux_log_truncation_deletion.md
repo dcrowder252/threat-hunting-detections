@@ -32,4 +32,5 @@ index=linux sourcetype="linux_audit" OR sourcetype="syslog"
 - The `rm` condition is paired with `/var/log/` to avoid matching unrelated file deletions
 - Log rotation scripts may generate false positives — establish a baseline of approved log management activity before alerting
 - Field names for Linux logs may differ significantly from Windows logs — adjust based on your specific log source and parsing configuration
+- This detection can be very noisy — if `>>` generates too much noise consider focusing on `>` only, or narrowing results by filtering on specific usernames known to perform legitimate log management
 - Review results against known administrative baselines before alerting

@@ -29,4 +29,5 @@
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Log rotation scripts may generate false positives — establish a baseline of approved log management activity before alerting
 - Field names may vary across tenants — adjust as necessary for your environment
+- This detection can be very noisy — if `>>` generates too much noise consider focusing on `>` only, or narrowing results by filtering on specific usernames known to perform legitimate log management
 - Review results against known administrative baselines before alerting
