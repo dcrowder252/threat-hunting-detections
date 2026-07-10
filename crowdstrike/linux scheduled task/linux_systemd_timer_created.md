@@ -14,7 +14,7 @@
 | event_platform=Lin
 | TargetFileName = /(\/etc\/systemd\/system\/|\/usr\/lib\/systemd\/system\/|\/run\/systemd\/system\/)/i
 | TargetFileName = /\.(timer|service)$/i
-| table(@timestamp, ComputerName, UserName, TargetFileName, ImageFileName)
+| table(@timestamp, ComputerName, TargetFileName, ContextBaseFileName)
 | sort(field=@timestamp, order=desc)
 ```
 
@@ -26,7 +26,7 @@
 - `event_platform=Lin` filters results to Linux endpoints only
 - `NewScriptWritten` is used as the event name and was validated in testing — some tenants may surface this activity under `FileWritten` instead, so adjust the event name as necessary for your environment
 - The first regex filters to systemd unit directories and the second filters to `.timer` and `.service` file extensions
-- `ImageFileName` surfaces the process that wrote the file for additional triage context
+- `ContextBaseFileName` surfaces the process that wrote the file for additional triage context — `UserName` and `ImageFileName` are not available in `NewScriptWritten` events
 - Package manager activity may generate false positives when installing or updating software that includes systemd unit files — baseline approved activity before alerting
 - Review newly created unit files for suspicious content including references to unusual binaries, encoded commands, or network connections
 - Field names may vary across tenants — adjust as necessary for your environment

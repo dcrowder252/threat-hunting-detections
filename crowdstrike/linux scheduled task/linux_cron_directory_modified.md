@@ -13,7 +13,7 @@
 #event_simpleName=NewScriptWritten
 | event_platform=Lin
 | TargetFileName = /(\/etc\/cron\.(d|daily|hourly|weekly|monthly)\/|\/etc\/crontab|\/var\/spool\/cron\/crontabs\/)/i
-| table(@timestamp, ComputerName, UserName, TargetFileName, ImageFileName)
+| table(@timestamp, ComputerName, TargetFileName, ContextBaseFileName)
 | sort(field=@timestamp, order=desc)
 ```
 
@@ -26,6 +26,6 @@
 - `NewScriptWritten` is used as the event name and was validated in testing — some tenants may surface this activity under `FileWritten` instead, so adjust the event name as necessary for your environment
 - The regex covers all common system cron directory and file locations in a single expression
 - Package manager activity may generate false positives when installing or updating software that includes cron jobs — baseline approved activity before alerting
-- `ImageFileName` surfaces the process that wrote the file for additional triage context
+- `ContextBaseFileName` surfaces the process that wrote the file for additional triage context — `UserName` and `ImageFileName` are not available in `NewScriptWritten` events
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known software deployment and maintenance baselines before alerting
