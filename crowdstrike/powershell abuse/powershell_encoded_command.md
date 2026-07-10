@@ -13,8 +13,8 @@
 #event_simpleName=ProcessRollup2
 | ImageFileName = /(powershell\.exe|pwsh\.exe)$/i
 | CommandLine = /(-EncodedCommand|-EncodedC|-EncodC|-enc|-ec)\s/i
-| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
-| sort(field=@timestamp, order=desc)
+| table(_time, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=_time, order=desc)
 ```
 
 ---
@@ -26,4 +26,6 @@
 - The regex covers all common abbreviations of the encoded command flag in a single pattern
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment
+- In large environments computer accounts (ending in `$`) may generate significant volume from legitimate management tooling such as SCCM, Group Policy, and automation frameworks — baseline which specific computer accounts are expected to run encoded commands and exclude those rather than excluding all computer accounts broadly
+- Computer accounts running encoded PowerShell should not be dismissed as automatically benign — when malware or a malicious scheduled task runs as SYSTEM, network authentication goes out under the computer account, making these events worth investigating
 - Review results against known administrative baselines before alerting
