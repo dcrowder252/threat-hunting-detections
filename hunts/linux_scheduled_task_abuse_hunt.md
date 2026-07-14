@@ -48,7 +48,6 @@ Common arguments to search for include:
 
 Pay particular attention to crontab modifications on systems where interactive user activity is not expected such as servers and cloud workloads. Review the crontab content where possible to identify suspicious entries referencing unusual binaries, encoded commands, or network connections.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -68,7 +67,6 @@ Locations to monitor include:
 
 Any new or modified files in these locations outside of known software deployment or maintenance windows should be reviewed for suspicious content.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -86,7 +84,6 @@ Locations to monitor include:
 
 Review newly created unit files for suspicious content including references to unusual binaries, encoded commands, download cradles, or outbound network connections. Also monitor for `systemctl enable` commands used to activate newly created timer units.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -102,7 +99,6 @@ Review cron job definitions across all cron directories and user crontabs for en
 - References to temporary directories such as `/tmp/` or `/dev/shm/`
 - Entries running under the root account that were not deployed through approved processes
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 

@@ -50,7 +50,6 @@ Common patterns to search for include:
 
 Any instance of these patterns on production systems outside of expected administrative activity should be investigated promptly.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -67,7 +66,6 @@ Common patterns to search for include:
 - `rm /var/log/`
 - `rm -rf /var/log/`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -84,7 +82,6 @@ Common patterns to search for include:
 - `shred .bash_history`
 - `shred -u .bash_history`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -104,7 +101,6 @@ Common patterns to search for include:
 - `service rsyslog stop`
 - `service auditd stop`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 

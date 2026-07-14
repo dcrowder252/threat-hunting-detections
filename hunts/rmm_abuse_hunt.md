@@ -48,7 +48,6 @@ Examples may include:
 
 Endpoints communicating with these domains should be validated to determine whether the activity is expected and associated with approved administrative tools.
 
-NOTE: This list is not all inclusive, this is just a small sample. Add other domains as needed.
 
 ---
 

@@ -41,7 +41,6 @@ Review the Security log for the presence of Event ID 1102. Each occurrence inclu
 
 Any instance of Event ID 1102 outside of a known and approved maintenance window should be treated as suspicious and investigated promptly.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -51,7 +50,6 @@ Windows Event ID 104 is generated in the System log whenever any Windows Event L
 
 Review the System log for the presence of Event ID 104. Pay particular attention to the log name field within the event, which identifies which specific log was cleared.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -66,7 +64,6 @@ Common command patterns to search for include:
 - `wevtutil cl`
 - `wevtutil clear-log`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -82,7 +79,6 @@ Strings commonly associated with PowerShell-based log clearing include:
 - `ClearEventLog`
 - `System.Diagnostics.EventLog`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 

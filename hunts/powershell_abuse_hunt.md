@@ -49,7 +49,6 @@ Common flags to search for include:
 
 Any PowerShell process launched with these flags should be reviewed to determine whether the usage is expected and authorized within the environment.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -72,7 +71,6 @@ Strings commonly associated with download cradle activity include:
 
 These patterns should be reviewed in context. The presence of these strings alongside encoded commands or unusual parent processes significantly increases the likelihood of malicious activity.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -91,7 +89,6 @@ Common bypass flags to search for include:
 
 This flag combination is rarely present in legitimate administrative scripting and should be investigated when observed on endpoints outside of expected administrative systems.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -114,7 +111,6 @@ Parent processes that commonly indicate malicious activity when spawning PowerSh
 
 Results should be compared against the expected baseline of administrative activity within the environment to identify anomalous execution chains.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 

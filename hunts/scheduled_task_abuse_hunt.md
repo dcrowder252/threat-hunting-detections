@@ -53,7 +53,6 @@ Pay particular attention to tasks that meet any of the following criteria:
 
 NOTE: A scheduled task configured to run as SYSTEM is a particularly high fidelity indicator. Creating a task that runs under the SYSTEM account requires administrative privileges, which means the attacker has already achieved a significant level of access within the environment before establishing this persistence mechanism.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -63,7 +62,6 @@ Windows Event ID 4702 is generated whenever an existing scheduled task is update
 
 Review Event ID 4702 for unexpected modifications to scheduled tasks, particularly changes to the task action, trigger, or execution context. Modifications made outside of known software deployment or maintenance windows should be treated as suspicious.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -80,7 +78,6 @@ Common arguments to search for include:
 
 Pay particular attention to the full command-line arguments accompanying these flags, as they may reveal the task name, execution path, and any encoded or obfuscated content being registered.
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
@@ -97,7 +94,6 @@ Strings commonly associated with PowerShell-based task registration include:
 - `New-ScheduledTask`
 - `Set-ScheduledTask`
 
-NOTE: Field names may need to be adjusted based on your log source and SIEM configuration.
 
 ---
 
