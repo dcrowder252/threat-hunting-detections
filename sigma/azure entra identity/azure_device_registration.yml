@@ -1,0 +1,31 @@
+title: Azure Suspicious Device Registration
+id: 7d4b2e9f-1a5c-4e3f-c8d6-4f1b0e7d2a9c
+status: experimental
+description: Detects device registration activity in Azure and Entra ID. Attackers have been observed registering attacker-controlled devices to compromised accounts to satisfy conditional access requirements and obtain persistent trusted device tokens. This rule detects both successful and failed device registration attempts — failed attempts may indicate an attacker working through conditional access controls while repeated failures followed by success is a high confidence indicator of malicious device enrollment.
+references:
+    - https://attack.mitre.org/techniques/T1098/005/
+author: dcrowder252
+date: 2026/07/20
+modified: 2026/07/20
+tags:
+    - attack.persistence
+    - attack.t1098.005
+logsource:
+    product: azure
+    service: auditlogs
+detection:
+    selection:
+        operationName:
+            - 'Add device'
+            - 'Register device'
+    condition: selection
+falsepositives:
+    - Legitimate device enrollments by users registering corporate or personal devices as part of approved BYOD or device management workflows
+    - Automated device enrollment processes as part of approved endpoint management
+    - Establish a baseline of expected device registration activity before alerting
+level: medium
+fields:
+    - operationName
+    - status
+    - callerIpAddress
+    - user

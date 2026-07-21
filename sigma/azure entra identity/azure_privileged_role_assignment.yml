@@ -1,0 +1,33 @@
+title: Azure Privileged Role Assignment
+id: 9b3e7f2a-4d1c-4a8f-e5b6-2c0d4f9b3e1a
+status: experimental
+description: Detects the assignment of highly privileged roles in Azure and Entra ID. Attackers with sufficient access frequently assign privileged roles to accounts they control to establish persistent administrative access to the tenant. New role assignments made outside of approved change management processes or to accounts with no prior administrative history should be treated as suspicious.
+references:
+    - https://attack.mitre.org/techniques/T1098/003/
+author: dcrowder252
+date: 2026/07/20
+modified: 2026/07/20
+tags:
+    - attack.persistence
+    - attack.t1098.003
+logsource:
+    product: azure
+    service: auditlogs
+detection:
+    selection:
+        operationName:
+            - 'Add member to role'
+            - 'Add eligible member to role'
+        status: 'success'
+    condition: selection
+falsepositives:
+    - Legitimate role assignments during approved administrative workflows or onboarding processes
+    - Automated provisioning systems that assign roles as part of approved identity lifecycle management
+    - Establish a baseline of approved role assignment activity before alerting
+    - Authentication Administrator has been observed to generate significant volume in large organizations and may warrant exclusion depending on environment
+level: high
+fields:
+    - operationName
+    - status
+    - callerIpAddress
+    - user

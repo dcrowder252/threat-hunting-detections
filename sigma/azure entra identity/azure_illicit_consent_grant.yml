@@ -1,0 +1,31 @@
+title: Azure Illicit OAuth Consent Grant
+id: 5c1f8d3a-2e7b-4c9f-b4a6-3d0f5e8c1b2a
+status: experimental
+description: Detects OAuth consent grants to applications in Azure and Entra ID. Illicit consent grant attacks involve tricking users or administrators into granting malicious applications access to their account or tenant. Once consent is granted the application retains persistent access through OAuth tokens that are independent of the user's password or MFA settings and can survive password resets. Results should be reviewed against approved application inventory to identify unauthorized grants.
+references:
+    - https://attack.mitre.org/techniques/T1528/
+author: dcrowder252
+date: 2026/07/20
+modified: 2026/07/20
+tags:
+    - attack.credential_access
+    - attack.t1528
+    - attack.persistence
+logsource:
+    product: azure
+    service: auditlogs
+detection:
+    selection:
+        operationName: 'Consent to application'
+        status: 'success'
+    condition: selection
+falsepositives:
+    - Legitimate consent grants to approved applications during normal business operations
+    - Administrative consent grants performed by IT staff as part of approved application onboarding
+    - Establish a baseline of approved application consent activity and review all grants against it before alerting
+level: medium
+fields:
+    - operationName
+    - status
+    - callerIpAddress
+    - user
