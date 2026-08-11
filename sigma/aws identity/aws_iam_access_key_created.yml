@@ -1,0 +1,32 @@
+title: AWS IAM Access Key Created
+id: 7a1d4f8e-2c3b-4e9a-b6f5-1d0c7f2b4e8a
+status: experimental
+description: Detects the creation of new IAM access keys in AWS. Attackers who gain sufficient privileges frequently create new access keys to establish persistent programmatic access that survives password resets and console access revocation. Unlike console passwords which require MFA, access keys provide direct API access without additional authentication making them a reliable attacker persistence mechanism.
+references:
+    - https://attack.mitre.org/techniques/T1098/001/
+    - https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+author: dcrowder252
+date: 2026/08/10
+modified: 2026/08/10
+tags:
+    - attack.persistence
+    - attack.t1098.001
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection:
+        eventName: CreateAccessKey
+        errorCode: success
+    condition: selection
+falsepositives:
+    - Legitimate access key creation as part of approved developer or automation provisioning workflows
+    - Automated key rotation processes that create new keys before removing old ones
+    - Establish a baseline of approved access key creation activity before alerting
+level: medium
+fields:
+    - userIdentity.type
+    - userIdentity.principalId
+    - requestParameters.userName
+    - sourceIPAddress
+    - awsRegion

@@ -1,0 +1,30 @@
+title: AWS Root Account Usage
+id: 3e7f2a1d-9b4c-4e8f-a5d6-2c1b0f9e4a3d
+status: experimental
+description: Detects usage of the AWS root account. The root account has unrestricted access to all AWS services and resources and cannot be restricted by IAM policies. AWS best practices strongly recommend that the root account not be used for day to day operations. Any root account activity outside of the very limited scenarios where it is genuinely required should be treated as a high priority alert.
+references:
+    - https://attack.mitre.org/techniques/T1078/004/
+    - https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+author: dcrowder252
+date: 2026/08/10
+modified: 2026/08/10
+tags:
+    - attack.initial_access
+    - attack.t1078.004
+    - attack.persistence
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection:
+        userIdentity.type: Root
+    condition: selection
+falsepositives:
+    - Legitimate root account usage for tasks that genuinely require root access such as account email changes, billing management, or support plan modifications
+    - Establish a baseline of approved root account usage scenarios before alerting
+level: high
+fields:
+    - eventName
+    - sourceIPAddress
+    - userAgent
+    - awsRegion

@@ -1,0 +1,42 @@
+title: AWS IAM Privilege Escalation via Policy Change
+id: 5c9b3e2a-1f7d-4c8e-d4a6-3b0f5e1c9b2a
+status: experimental
+description: Detects IAM policy modifications that may indicate privilege escalation attempts in AWS. Attackers with the ability to modify IAM policies can escalate their own privileges or the privileges of other identities by attaching more permissive policies or creating new policies with elevated permissions. This technique can allow an attacker to elevate from a low-privilege foothold to full administrative access within the account.
+references:
+    - https://attack.mitre.org/techniques/T1548/005/
+author: dcrowder252
+date: 2026/08/10
+modified: 2026/08/10
+tags:
+    - attack.privilege_escalation
+    - attack.t1548.005
+    - attack.persistence
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection:
+        eventName:
+            - PutUserPolicy
+            - AttachUserPolicy
+            - PutRolePolicy
+            - AttachRolePolicy
+            - CreatePolicy
+            - PutGroupPolicy
+            - AttachGroupPolicy
+        errorCode: success
+    condition: selection
+falsepositives:
+    - Legitimate IAM policy changes performed by administrators as part of approved provisioning or change management workflows
+    - Automated infrastructure as code deployments that attach policies as part of resource creation
+    - Establish a baseline of approved IAM policy management activity before alerting
+level: high
+fields:
+    - userIdentity.type
+    - userIdentity.principalId
+    - requestParameters.userName
+    - requestParameters.roleName
+    - requestParameters.policyArn
+    - requestParameters.policyName
+    - sourceIPAddress
+    - awsRegion
