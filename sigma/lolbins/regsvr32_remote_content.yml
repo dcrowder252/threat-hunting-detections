@@ -1,0 +1,36 @@
+title: Regsvr32 Loading Remote Content
+id: 5e3b8f1a-4d2c-4e7f-a6d9-2b0f4e8c1a3d
+status: experimental
+description: Detects regsvr32 invocations referencing remote URLs indicating attempts to load remotely hosted COM scriptlets. Legitimate regsvr32 usage involves registering locally installed DLL files and does not require reaching out to remote URLs.
+references:
+    - https://attack.mitre.org/techniques/T1218/010/
+    - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.010
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\regsvr32.exe'
+    selection_args:
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate software that registers COM objects hosted on internal web servers
+    - Establish a baseline of approved regsvr32 usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

@@ -1,0 +1,32 @@
+title: Regsvr32 Loading SCT Scriptlet File
+id: 1f6c3e9a-8b4d-4f2e-c7a5-3e1d6f9b4c2a
+status: experimental
+description: Detects regsvr32 invocations referencing COM scriptlet files with the .sct extension. SCT files are commonly used in LOLBin abuse scenarios to execute malicious script content through the trusted regsvr32 binary. Legitimate regsvr32 usage involves DLL registration and does not typically reference .sct files.
+references:
+    - https://attack.mitre.org/techniques/T1218/010/
+    - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.010
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\regsvr32.exe'
+    selection_args:
+        CommandLine|contains: '.sct'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate software that uses SCT files for COM component registration
+    - Establish a baseline of approved regsvr32 usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

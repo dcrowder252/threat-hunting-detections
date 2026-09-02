@@ -1,0 +1,43 @@
+title: Regsvr32 Spawned by Suspicious Parent Process
+id: 8d4f2b6e-1a3c-4e9d-f5b8-2c0e4f7d1b6a
+status: experimental
+description: Detects regsvr32 spawned by parent processes commonly associated with phishing-based initial access. Regsvr32 being launched by Office applications or scripting engines is a strong indicator of malicious document execution attempting to abuse regsvr32 for payload execution or AppLocker bypass.
+references:
+    - https://attack.mitre.org/techniques/T1218/010/
+    - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.010
+    - attack.initial_access
+    - attack.t1566.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\regsvr32.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\outlook.exe'
+            - '\mshta.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\explorer.exe'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Legitimate software installations that invoke regsvr32 through scripting engines
+    - explorer.exe may generate more noise than other parent processes and can be excluded if needed
+    - Establish a baseline of approved regsvr32 usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

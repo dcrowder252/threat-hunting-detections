@@ -1,0 +1,35 @@
+title: Regsvr32 Squiblydoo COM Scriptlet Execution
+id: 7c1e4a9d-2f5b-4e8c-b3f7-4d0c2e7a1f5b
+status: experimental
+description: Detects regsvr32 invocations using the /s /n /i flag combination associated with the Squiblydoo technique for executing COM scriptlets. This combination allows regsvr32 to execute remotely hosted or locally staged scriptlets while bypassing application allowlisting controls. This flag combination is rarely observed in legitimate software installation activity.
+references:
+    - https://attack.mitre.org/techniques/T1218/010/
+    - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.010
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\regsvr32.exe'
+    selection_args:
+        CommandLine|contains|all:
+            - '/s'
+            - '/n'
+            - '/i'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate software installations that use this flag combination for COM object registration
+    - Establish a baseline of approved regsvr32 usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

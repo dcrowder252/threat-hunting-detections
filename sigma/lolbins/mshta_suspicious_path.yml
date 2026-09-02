@@ -1,0 +1,36 @@
+title: Mshta Executing Content from Suspicious Path
+id: 3a8f4d2e-7b1c-4a6f-e3d8-5f2b0e7c4d1a
+status: experimental
+description: Detects mshta executing content from temporary or user-writable directories which are commonly used to stage malicious HTA files. Legitimate mshta usage typically involves content installed in standard application directories rather than temporary or user profile locations.
+references:
+    - https://attack.mitre.org/techniques/T1218/005/
+    - https://lolbas-project.github.io/lolbas/Binaries/Mshta/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\mshta.exe'
+    selection_args:
+        CommandLine|contains:
+            - '\temp\'
+            - '\tmp\'
+            - '\appdata\'
+            - '\programdata\'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate software that stages HTA files in temporary directories during installation
+    - Establish a baseline of approved mshta usage before alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

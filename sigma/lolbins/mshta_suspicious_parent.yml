@@ -1,0 +1,42 @@
+title: Mshta Spawned by Suspicious Parent Process
+id: 9d2e5f1b-3c7a-4e8d-b4f6-2a0c5e9d1b3f
+status: experimental
+description: Detects mshta spawned by parent processes commonly associated with phishing-based initial access. Mshta being launched by Office applications or scripting engines is a strong indicator of a malicious document or file execution attempting to abuse the HTML Application host for code execution.
+references:
+    - https://attack.mitre.org/techniques/T1218/005/
+    - https://lolbas-project.github.io/lolbas/Binaries/Mshta/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.005
+    - attack.initial_access
+    - attack.t1566.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\mshta.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\outlook.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\explorer.exe'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Legitimate legacy applications that invoke mshta through scripting engines
+    - explorer.exe may generate more noise than other parent processes and can be excluded if needed
+    - Establish a baseline of approved mshta usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

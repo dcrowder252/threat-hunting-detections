@@ -1,0 +1,43 @@
+title: Certutil Spawned by Suspicious Parent Process
+id: 2e9c4a7f-5b1d-4e3c-a8f6-3d0b7e2c4a9f
+status: experimental
+description: Detects certutil spawned by parent processes commonly associated with phishing-based initial access including Office applications and scripting engines. This parent-child relationship is a strong indicator of malicious document or file execution using certutil for payload delivery or decoding.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://lolbas-project.github.io/lolbas/Binaries/Certutil/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.execution
+    - attack.t1105
+    - attack.initial_access
+    - attack.t1566.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\certutil.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\outlook.exe'
+            - '\mshta.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\explorer.exe'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Legitimate administrative use of certutil launched through Explorer or approved scripting workflows
+    - explorer.exe may generate more noise than other parent processes and can be excluded if needed
+    - Establish a baseline of approved certutil usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

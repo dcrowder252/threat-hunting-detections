@@ -1,0 +1,35 @@
+title: Certutil Encode or Decode Activity
+id: 8b3f5e2a-1d7c-4f9e-c4a6-2b0d5f8e1c3a
+status: experimental
+description: Detects certutil invocations used to encode or decode file content. Attackers frequently use certutil to decode obfuscated payloads delivered through phishing or other initial access techniques. The -decode, -encode, and -decodehex flags are rarely used in legitimate administrative scenarios on general purpose endpoints.
+references:
+    - https://attack.mitre.org/techniques/T1140/
+    - https://lolbas-project.github.io/lolbas/Binaries/Certutil/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1140
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\certutil.exe'
+    selection_args:
+        CommandLine|contains:
+            - '-decode'
+            - '-encode'
+            - '-decodehex'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate certificate encoding and decoding operations in PKI management environments
+    - Establish a baseline of approved certutil usage before alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

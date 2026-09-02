@@ -1,0 +1,34 @@
+title: Certutil Download Cradle Usage
+id: 4a7e2f1d-8c3b-4e9f-b6d5-1c0a3f8e2b7d
+status: experimental
+description: Detects certutil invocations containing flags associated with downloading files from remote locations. Certutil is a legitimate certificate management utility that is frequently abused to download payloads from attacker-controlled infrastructure. The -urlcache and -split flags are rarely used in legitimate PKI administration.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://lolbas-project.github.io/lolbas/Binaries/Certutil/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\certutil.exe'
+    selection_args:
+        CommandLine|contains:
+            - '-urlcache'
+            - '-split'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate PKI management operations that use certutil for certificate retrieval
+    - Establish a baseline of approved certutil usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

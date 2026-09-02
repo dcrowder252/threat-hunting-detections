@@ -1,0 +1,36 @@
+title: Mshta Executing Remote Content
+id: 6f1b3d8e-4a2c-4f7e-d5b9-1c4f8d3b6a2e
+status: experimental
+description: Detects mshta invocations referencing remote URLs or UNC paths indicating execution of remotely hosted HTML Application content. Legitimate mshta usage typically involves locally installed HTA files and rarely references external URLs or network shares. This technique is commonly observed in phishing campaigns and post-exploitation scenarios.
+references:
+    - https://attack.mitre.org/techniques/T1218/005/
+    - https://lolbas-project.github.io/lolbas/Binaries/Mshta/
+author: dcrowder252
+date: 2026/08/30
+modified: 2026/08/30
+tags:
+    - attack.defense_evasion
+    - attack.t1218.005
+    - attack.execution
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\mshta.exe'
+    selection_args:
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - '\\\\'
+    condition: selection_process and selection_args
+falsepositives:
+    - Legitimate legacy applications that use mshta to execute remotely hosted HTA content
+    - Establish a baseline of approved mshta usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
