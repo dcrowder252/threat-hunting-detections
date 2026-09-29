@@ -102,7 +102,4 @@ Windows Event Log clearing is a reliable indicator of post-compromise defense ev
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Windows Event Log Clearing in Enterprise Environments](../research/log_clearing.md)

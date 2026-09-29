@@ -122,7 +122,4 @@ Rundll32, wscript, cscript, and bitsadmin represent a broad and versatile set of
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Living off the Land Binary Abuse — Rundll32, Wscript, Cscript, and Bitsadmin](../research/lolbins2_research.md)

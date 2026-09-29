@@ -154,7 +154,3 @@ CrowdStrike LogScale queries are not included for this hunt. Azure and Entra ID 
 
 ---
 
-## Related Research
-
-This threat hunt builds upon the research documented in:
-- [Cloud Identity Attacks in Azure and Entra ID Environments](../research/azure_entra_identity.md)

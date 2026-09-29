@@ -124,7 +124,3 @@ Linux log clearing and tampering is a reliable indicator of post-compromise defe
 
 ---
 
-## Related Research
-
-This threat hunt builds upon the research documented in:
-- [Linux Log Clearing and Tampering in Enterprise Environments](../research/linux_log_clearing.md)

@@ -134,7 +134,4 @@ PowerShell is one of the most versatile and widely abused tools available to att
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [PowerShell Abuse in Enterprise Environments](../research/powershell_abuse.md)

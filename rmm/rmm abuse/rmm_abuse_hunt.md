@@ -86,7 +86,4 @@ Answering these questions can help determine whether the activity represents leg
 
 RMM tools are valuable administrative utilities, but they can also provide attackers with a convenient method for maintaining remote access within a compromised environment. By monitoring network activity and service installations related to remote management software, defenders can improve their ability to detect unauthorized usage and respond to potential intrusions.
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Remote Management Tool Abuse in Enterprise Environments](../research/rmm_abuse.md)

@@ -117,7 +117,3 @@ Scheduled Tasks are one of the most commonly abused persistence mechanisms in Wi
 
 ---
 
-## Related Research
-
-This threat hunt builds upon the research documented in:
-- [Scheduled Task Abuse in Enterprise Environments](../research/scheduled_task_abuse.md)

@@ -114,7 +114,4 @@ Certutil, mshta, and regsvr32 are among the most consistently observed LOLBins i
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Living off the Land Binary Abuse in Enterprise Environments](../research/lolbins_research.md)

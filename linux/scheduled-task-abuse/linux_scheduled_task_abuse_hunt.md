@@ -122,7 +122,4 @@ Cron and systemd timers are among the most commonly abused persistence mechanism
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Linux Scheduled Task Abuse in Enterprise Environments](../research/linux_scheduled_task_abuse.md)

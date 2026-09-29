@@ -127,7 +127,4 @@ AWS identity attacks represent a significant and growing threat to organizations
 
 ---
 
-## Related Research
 
-This threat hunt builds upon the research documented in:
-- [Cloud Identity Attacks in AWS Environments](../research/aws_identity_research.md)
