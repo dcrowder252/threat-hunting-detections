@@ -1,0 +1,43 @@
+title: Wmic Spawning Suspicious Child Process
+id: 4f8c2e7a-1b3d-4e9c-f5a8-2d0c3f7e1b4a
+status: experimental
+description: Detects processes spawned as children of wmic. Attackers use wmic as an execution proxy to obscure the origin of malicious execution by interposing wmic between the initial trigger and the ultimate payload. As of the September 2026 Security Update wmic.exe has been removed from Windows 11 versions 24H2 and 25H2 — detection remains important for environments running older Windows versions.
+references:
+    - https://attack.mitre.org/techniques/T1047/
+    - https://lolbas-project.github.io/lolbas/Binaries/Wmic/
+author: dcrowder252
+date: 2026/10/01
+modified: 2026/10/01
+tags:
+    - attack.execution
+    - attack.t1047
+    - attack.defense_evasion
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_parent:
+        ParentImage|endswith: '\wmic.exe'
+    selection_child:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\cmd.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\mshta.exe'
+            - '\rundll32.exe'
+            - '\regsvr32.exe'
+            - '\msiexec.exe'
+            - '\certutil.exe'
+            - '\bitsadmin.exe'
+    condition: selection_parent and selection_child
+falsepositives:
+    - Legitimate administrative scripts that invoke tools through wmic
+    - Establish a baseline of approved wmic child process activity before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

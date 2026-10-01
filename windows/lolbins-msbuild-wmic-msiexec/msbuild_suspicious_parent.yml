@@ -1,0 +1,45 @@
+title: Msbuild Spawned by Suspicious Parent Process
+id: 1d5e9f3a-7b2c-4e8d-c4f6-3a0d5e9f1b2c
+status: experimental
+description: Detects msbuild spawned by parent processes not typically associated with legitimate build activity. Msbuild being launched by Office applications, scripting engines, or command interpreters outside of development contexts is a strong indicator of malicious inline code execution attempting to bypass application allowlisting controls.
+references:
+    - https://attack.mitre.org/techniques/T1127/001/
+    - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+author: dcrowder252
+date: 2026/10/01
+modified: 2026/10/01
+tags:
+    - attack.defense_evasion
+    - attack.t1127.001
+    - attack.initial_access
+    - attack.t1566.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\msbuild.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\outlook.exe'
+            - '\mshta.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\explorer.exe'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Legitimate build scripts invoked through PowerShell or cmd as part of approved CI/CD workflows
+    - explorer.exe, cmd.exe, and powershell.exe may generate more noise than other parent processes and can be excluded individually if needed
+    - Establish a baseline of approved msbuild usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName

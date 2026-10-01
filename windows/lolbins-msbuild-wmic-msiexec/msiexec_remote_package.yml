@@ -1,0 +1,38 @@
+title: Msiexec Executing Remote Package via URL
+id: 3e8f2a1d-7c4b-4f9e-b5d6-2c1a0f8e3b7d
+status: experimental
+description: Detects msiexec invocations where the /i flag is followed by a remote URL rather than a local file path. Attackers abuse msiexec to fetch and execute malicious MSI packages directly from remote infrastructure using a trusted signed Windows binary. Legitimate software deployment via msiexec typically references local paths or internal network shares rather than external web URLs.
+references:
+    - https://attack.mitre.org/techniques/T1218/007/
+    - https://lolbas-project.github.io/lolbas/Binaries/Msiexec/
+author: dcrowder252
+date: 2026/10/01
+modified: 2026/10/01
+tags:
+    - attack.defense_evasion
+    - attack.t1218.007
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\msiexec.exe'
+    selection_url:
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+    selection_flag:
+        CommandLine|contains: '/i'
+    condition: selection_process and selection_url and selection_flag
+falsepositives:
+    - Legitimate software deployment tools that reference external URLs for package retrieval
+    - Establish a baseline of approved msiexec usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - ComputerName
