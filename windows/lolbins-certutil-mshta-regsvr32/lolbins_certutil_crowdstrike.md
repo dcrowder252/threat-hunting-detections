@@ -35,6 +35,20 @@ This query detects certutil invocations used to encode or decode file content �
 
 ---
 
+## Query 4 — Certutil Referencing External URL
+
+This query detects certutil invocations where the command line contains external URLs directly. This covers scenarios where an attacker uses certutil to contact remote infrastructure without necessarily including the -urlcache or -split flags.
+
+```kusto
+#event_simpleName=ProcessRollup2
+| ImageFileName = /certutil\.exe$/i
+| CommandLine = /(http:\/\/|https:\/\/)/i
+| table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
+| sort(field=@timestamp, order=desc)
+```
+
+---
+
 ## Query 3 — Certutil Spawned by Suspicious Parent Process
 
 This query detects certutil spawned by parent processes commonly associated with phishing-based initial access including Office applications and scripting engines.

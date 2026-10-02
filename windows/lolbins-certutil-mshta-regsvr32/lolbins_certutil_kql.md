@@ -35,6 +35,20 @@ DeviceProcessEvents
 
 ---
 
+## Query 4 — Certutil Referencing External URL
+
+This query detects certutil invocations where the command line contains external URLs directly. This covers scenarios where an attacker uses certutil to contact remote infrastructure without necessarily including the -urlcache or -split flags.
+
+```kql
+DeviceProcessEvents
+| where FileName =~ "certutil.exe"
+| where ProcessCommandLine has_any ("http://", "https://")
+| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
+| sort by Timestamp desc
+```
+
+---
+
 ## Query 3 — Certutil Spawned by Suspicious Parent Process
 
 This query detects certutil spawned by parent processes commonly associated with phishing-based initial access including Office applications and scripting engines.
