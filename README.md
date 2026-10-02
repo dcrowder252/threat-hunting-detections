@@ -1,6 +1,6 @@
 # Threat Hunting & Detection Engineering Portfolio
 
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--09--09-blue)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--10--01-blue)
 ![GitHub Repo Size](https://img.shields.io/github/repo-size/dcrowder252/threat-hunting-detections)
 
 ## Table of Contents
@@ -41,7 +41,8 @@ threat-hunting-detections/
 │   ├── log-clearing/
 │   ├── scheduled-task-abuse/
 │   ├── lolbins-certutil-mshta-regsvr32/
-│   └── lolbins-rundll32-wscript-bitsadmin/
+│   ├── lolbins-rundll32-wscript-bitsadmin/
+│   └── lolbins-msiexec-wmic-msbuild/
 ├── linux/
 │   ├── log-clearing/
 │   └── scheduled-task-abuse/
@@ -75,6 +76,7 @@ Each topic folder contains:
 | Scheduled Task Abuse | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | LOLBins — Certutil, Mshta, Regsvr32 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | LOLBins — Rundll32, Wscript, Cscript, Bitsadmin | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| LOLBins — Msiexec, Wmic, Msbuild | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ### Linux
 
