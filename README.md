@@ -1,3 +1,5 @@
+![Threat Hunting Portfolio](assets/banner.png)
+
 # Threat Hunting & Detection Engineering Portfolio
 
 ![Last Updated](https://img.shields.io/badge/Last_Updated-2026--10--01-blue)
@@ -36,6 +38,8 @@ The repository is organized by platform and domain to make content easy to navig
 
 ```
 threat-hunting-detections/
+├── assets/
+│   └── banner.png
 ├── windows/
 │   ├── powershell-abuse/
 │   ├── log-clearing/
