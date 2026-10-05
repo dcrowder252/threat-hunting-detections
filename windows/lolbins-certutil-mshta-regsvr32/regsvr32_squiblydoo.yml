@@ -22,7 +22,12 @@ detection:
             - '/s'
             - '/n'
             - '/i'
-    condition: selection_process and selection_args
+    selection_payload:
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - '.sct'
+    condition: selection_process and selection_args and selection_payload
 falsepositives:
     - Legitimate software installations that use this flag combination for COM object registration
     - Establish a baseline of approved regsvr32 usage before alerting

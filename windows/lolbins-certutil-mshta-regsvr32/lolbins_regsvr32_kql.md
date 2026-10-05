@@ -15,8 +15,9 @@ This query detects regsvr32 invocations using the /s /n /i flag combination comm
 DeviceProcessEvents
 | where FileName =~ "regsvr32.exe"
 | where ProcessCommandLine has "/s"
-    and ProcessCommandLine has "/n"
-    and ProcessCommandLine has "/i"
+| where ProcessCommandLine has "/n"
+| where ProcessCommandLine has "/i"
+| where ProcessCommandLine has_any ("http://", "https://", ".sct")
 | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
 | sort by Timestamp desc
 ```

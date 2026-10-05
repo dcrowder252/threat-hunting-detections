@@ -14,7 +14,10 @@ This query detects regsvr32 invocations using the /s /n /i flag combination comm
 ```kusto
 #event_simpleName=ProcessRollup2
 | ImageFileName = /regsvr32\.exe$/i
-| CommandLine = /\/s.*\/n.*\/i/i
+| CommandLine = /\/s/i
+| CommandLine = /\/n/i
+| CommandLine = /\/i/i
+| CommandLine = /(http:\/\/|https:\/\/|\.sct)/i
 | table(@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName)
 | sort(field=@timestamp, order=desc)
 ```
@@ -67,7 +70,7 @@ This query detects regsvr32 spawned by parent processes commonly associated with
 
 - This query is written for CrowdStrike Falcon LogScale (formerly Humio)
 - `ProcessRollup2` is the standard CrowdStrike event for process creation
-- Query 1 targets the Squiblydoo technique specifically — the `/s /n /i` flag combination is the key indicator
+- Query 1 targets the Squiblydoo technique specifically — the `/s /n /i` flags are required alongside a URL or `.sct` file reference to reduce noise from legitimate regsvr32 usage that also uses these flags — consecutive filter lines act as AND in LogScale
 - `explorer.exe` is included as a parent process but may generate more noise than the other parent processes listed — can be removed from the regex if volume is too high in your environment
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment

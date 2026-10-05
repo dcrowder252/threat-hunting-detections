@@ -16,6 +16,7 @@ index=* sourcetype=*
 EventCode=4688 OR EventCode=1
 Image="*\regsvr32.exe"
 CommandLine="*/s*" CommandLine="*/n*" CommandLine="*/i*"
+(CommandLine="*http://*" OR CommandLine="*https://*" OR CommandLine="*.sct*")
 | table _time, ComputerName, User, Image, CommandLine, ParentImage
 | sort - _time
 ```
