@@ -29,3 +29,4 @@
 - In large environments computer accounts (ending in `$`) may generate significant volume from legitimate management tooling such as SCCM, Group Policy, and automation frameworks — baseline which specific computer accounts are expected to run encoded commands and exclude those rather than excluding all computer accounts broadly
 - Computer accounts running encoded PowerShell should not be dismissed as automatically benign — when malware or a malicious scheduled task runs as SYSTEM, network authentication goes out under the computer account, making these events worth investigating
 - Review results against known administrative baselines before alerting
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
