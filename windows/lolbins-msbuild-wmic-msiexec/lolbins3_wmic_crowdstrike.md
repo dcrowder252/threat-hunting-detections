@@ -58,3 +58,4 @@ This query detects wmic invocations querying installed security software or anti
 - `ParentBaseFileName` surfaces the parent process for additional triage context
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known administrative baselines before alerting
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
