@@ -69,3 +69,4 @@ This query detects certutil spawned by parent processes commonly associated with
 - `ProcessRollup2` is the standard CrowdStrike event for process creation
 - All three queries can be combined using OR logic if a single broad search is preferred — separating them allows for more granular tuning per technique
 - `explorer.exe` is included as a parent process but may generate more noise than the other parent processes listed — users launching certutil through Explorer for legitimate reasons is not uncommon and can be removed from the regex if volume is too high in your environment
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
