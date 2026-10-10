@@ -35,3 +35,4 @@
 - This list is not exhaustive — add additional RMM-related domains as needed
 - The regex version is recommended for cleaner, more maintainable queries as the domain list grows
 - Review results against your approved RMM tool baseline before alerting
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
