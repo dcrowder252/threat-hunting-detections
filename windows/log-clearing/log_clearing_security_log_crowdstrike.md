@@ -40,3 +40,4 @@ For environments where Windows Event Logs are ingested into LogScale or NextGen 
 - `SubjectUserName`, `SubjectDomainName`, and `SubjectLogonId` are Windows Event Log fields and may not be available in all tenants
 - Any occurrence outside of an approved maintenance window should be investigated immediately
 - Field names may vary across tenants — adjust as necessary for your environment
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
