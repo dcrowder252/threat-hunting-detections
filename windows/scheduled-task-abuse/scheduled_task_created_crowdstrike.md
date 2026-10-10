@@ -41,3 +41,4 @@ For environments where Windows Event Logs are ingested into LogScale or NextGen 
 - Pay particular attention to tasks configured to run as SYSTEM or referencing unusual execution paths or encoded commands
 - Field names may vary across tenants — adjust as necessary for your environment
 - Review results against known scheduled task baselines before alerting
+- By default CrowdStrike LogScale caps results at 200 — to increase this limit add a `limit` parameter inside the table command with a value up to 20,000. Example: `| table([@timestamp, ComputerName, UserName, ImageFileName, CommandLine, ParentBaseFileName], sortby=@timestamp, order=desc, limit=10000)`
