@@ -1,0 +1,49 @@
+title: Linux LOLBin - Netcat Spawned by Unexpected Parent Process
+id: d0a2b4c6-1e3f-4b9d-e1a3-b5c7d9e1f3a5
+status: experimental
+description: Detects netcat spawned by web server, database, or scripting engine processes. Netcat being launched by a process that has no legitimate reason to invoke it is a near-certain indicator of post-exploitation activity — an attacker with code execution on the compromised process is using netcat to establish a reverse shell back to attacker-controlled infrastructure.
+references:
+    - https://attack.mitre.org/techniques/T1059.004/
+    - https://attack.mitre.org/techniques/T1190/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.initial_access
+    - attack.t1190
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/nc'
+            - '/ncat'
+            - '/netcat'
+    selection_parent:
+        ParentImage|endswith:
+            - '/apache2'
+            - '/httpd'
+            - '/nginx'
+            - '/tomcat'
+            - '/java'
+            - '/python'
+            - '/python3'
+            - '/ruby'
+            - '/php'
+            - '/mysqld'
+            - '/postgres'
+            - '/node'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Extremely rare in production environments — investigate any matches immediately
+    - Establish a baseline of approved netcat parent process relationships before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

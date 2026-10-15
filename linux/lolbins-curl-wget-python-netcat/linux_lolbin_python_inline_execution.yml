@@ -1,0 +1,37 @@
+title: Linux LOLBin - Python Inline Code Execution via -c Flag
+id: e5b7c9d1-6f8a-4c4e-f6b8-c0d2e4f6a8b0
+status: experimental
+description: Detects python or python3 invoked with the -c flag to execute inline code. While the -c flag has legitimate uses, it is a reliable indicator of LOLBin abuse when combined with network or shell-interaction patterns. Attackers use inline Python execution to avoid writing scripts to disk and to bypass script-based detection controls.
+references:
+    - https://attack.mitre.org/techniques/T1059.006/
+    - https://gtfobins.github.io/gtfobins/python/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.006
+    - attack.defense_evasion
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/python'
+            - '/python3'
+            - '/python2'
+    selection_flag:
+        CommandLine|contains: ' -c '
+    condition: selection_process and selection_flag
+falsepositives:
+    - Legitimate administrative one-liners and automation scripts using python -c
+    - Package management or CI tooling invoking python -c for version checks or inline transformations
+    - Establish a baseline of approved python -c usage before alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

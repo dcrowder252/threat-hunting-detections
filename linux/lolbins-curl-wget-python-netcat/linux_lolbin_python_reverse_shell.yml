@@ -1,0 +1,41 @@
+title: Linux LOLBin - Python Reverse Shell Module References
+id: f6c8d0e2-7a9b-4d5f-a7c9-d1e3f5a7b9c1
+status: experimental
+description: Detects python or python3 command lines referencing modules and functions commonly used to establish reverse shells. The combination of socket, os.dup2, pty.spawn, or subprocess with python -c is a strong indicator of active reverse shell activity. Legitimate Python applications do not typically invoke these low-level system call patterns from the command line.
+references:
+    - https://attack.mitre.org/techniques/T1059.006/
+    - https://gtfobins.github.io/gtfobins/python/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.006
+    - attack.command_and_control
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/python'
+            - '/python3'
+            - '/python2'
+    selection_modules:
+        CommandLine|contains:
+            - 'socket'
+            - 'os.dup2'
+            - 'pty.spawn'
+            - 'subprocess.call'
+            - 'subprocess.Popen'
+    condition: selection_process and selection_modules
+falsepositives:
+    - Application servers and automation platforms that invoke Python subprocesses referencing socket or subprocess modules as part of normal operation (e.g. AWX/Ansible)
+    - Establish a baseline of approved Python usage involving these modules before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

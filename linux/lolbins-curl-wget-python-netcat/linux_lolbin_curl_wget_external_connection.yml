@@ -1,0 +1,38 @@
+title: Linux LOLBin - Curl or Wget External Network Connection
+id: a3f1c2e4-7b8d-4e9a-b1c2-d3e4f5a6b7c8
+status: experimental
+description: >
+    Detects curl or wget making outbound connections to external IP addresses.
+    Filters out RFC 1918 private ranges and loopback to focus on traffic leaving
+    the network. Curl and wget are commonly abused as download cradles to stage
+    malware or exfiltrate data during post-exploitation.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://attack.mitre.org/techniques/T1071/001/
+author: dcrowder252
+date: 2026/10/14
+tags:
+    - attack.t1105
+    - attack.t1071.001
+logsource:
+    category: network_connection
+    product: linux
+detection:
+    selection:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+    filter_private:
+        DestinationIp|cidr:
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+            - '127.0.0.0/8'
+            - '169.254.0.0/16'
+    condition: selection and not filter_private
+falsepositives:
+    - Legitimate package managers or update agents invoking curl or wget for external
+      downloads (apt, yum, pip, npm)
+    - Monitoring or configuration management agents (Ansible, Chef, Puppet)
+    - CI/CD pipeline runners performing artifact downloads
+level: medium

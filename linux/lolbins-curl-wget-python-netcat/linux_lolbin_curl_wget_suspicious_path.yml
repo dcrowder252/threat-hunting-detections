@@ -1,0 +1,40 @@
+title: Linux LOLBin - Curl or Wget Download to Suspicious Path
+id: c3f5a7b9-4d6e-4a2c-d4f6-a8b0c2e4f6a8
+status: experimental
+description: Detects curl or wget writing output to memory-backed or world-writable directories commonly used by attackers to avoid leaving artifacts on disk. Downloads targeting /dev/shm/, /tmp/, or /var/tmp/ are a strong indicator of staged malware delivery. The /tmp/ path alone may produce significant volume in some environments — exclude known package management or CI/CD tooling if noise is excessive.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://attack.mitre.org/techniques/T1027/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.defense_evasion
+    - attack.t1027
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+    selection_path:
+        CommandLine|contains:
+            - '/dev/shm/'
+            - '/tmp/'
+            - '/var/tmp/'
+    condition: selection_process and selection_path
+falsepositives:
+    - Package managers and CI/CD agents staging downloads in /tmp/ as part of normal installation workflows
+    - Monitoring agents or configuration management tools downloading scripts to temp locations
+    - The /tmp/ path alone may generate significant volume — consider scoping to /dev/shm/ alone for high-fidelity alerting
+level: medium
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

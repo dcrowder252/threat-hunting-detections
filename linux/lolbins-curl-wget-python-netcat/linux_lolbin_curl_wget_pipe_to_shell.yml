@@ -1,0 +1,48 @@
+title: Linux LOLBin - Curl or Wget Pipe to Shell
+id: b2e4f6a8-3c5d-4f1b-c3e5-f7a9b1d3e5f7
+status: experimental
+description: Detects curl or wget command lines that pipe output directly to a shell interpreter. This fileless execution pattern is a strong indicator of malicious activity — it allows an attacker to download and execute a payload entirely in memory without writing a file to disk. Legitimate package managers and software installers occasionally use this pattern; a baseline of approved usage should be established before alerting.
+references:
+    - https://attack.mitre.org/techniques/T1059.004/
+    - https://attack.mitre.org/techniques/T1105/
+    - https://lolbas-project.github.io/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.defense_evasion
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+    selection_pipe:
+        CommandLine|contains:
+            - '| bash'
+            - '| sh'
+            - '| zsh'
+            - '| python'
+            - '| python3'
+            - '|bash'
+            - '|sh'
+            - '|zsh'
+            - '|python'
+            - '|python3'
+    condition: selection_process and selection_pipe
+falsepositives:
+    - Legitimate software installers using curl-pipe-bash patterns (e.g. Homebrew, rvm, nvm, rustup)
+    - Internal tooling or onboarding scripts that install software this way
+    - Establish a baseline of approved curl-pipe-bash usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

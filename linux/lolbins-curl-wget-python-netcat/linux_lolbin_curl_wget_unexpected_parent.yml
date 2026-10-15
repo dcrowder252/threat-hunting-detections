@@ -1,0 +1,48 @@
+title: Linux LOLBin - Curl or Wget Spawned by Unexpected Parent Process
+id: d4a6b8c0-5e7f-4b3d-e5a7-b9c1d3e5f7a9
+status: experimental
+description: Detects curl or wget spawned by web server, database, or scripting engine processes. These parent-child relationships are rarely observed in legitimate operations and are a strong indicator that an attacker has achieved remote code execution on the host and is using the compromised process to download a secondary payload or establish a reverse shell.
+references:
+    - https://attack.mitre.org/techniques/T1105/
+    - https://attack.mitre.org/techniques/T1190/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1105
+    - attack.initial_access
+    - attack.t1190
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+    selection_parent:
+        ParentImage|endswith:
+            - '/apache2'
+            - '/httpd'
+            - '/nginx'
+            - '/tomcat'
+            - '/java'
+            - '/python'
+            - '/python3'
+            - '/ruby'
+            - '/php'
+            - '/mysqld'
+            - '/postgres'
+            - '/node'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Application frameworks that invoke curl or wget as part of health checks or plugin download routines
+    - Establish a baseline of approved curl and wget usage by web and database processes before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

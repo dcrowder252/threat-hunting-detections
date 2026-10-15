@@ -1,0 +1,47 @@
+title: Linux LOLBin - Python Spawned by Unexpected Parent Process
+id: a7d9e1f3-8b0c-4e6a-b8d0-e2f4a6b8c0d2
+status: experimental
+description: Detects python or python3 spawned by web server, database, or scripting engine processes. These parent-child relationships are a strong indicator that an attacker has achieved remote code execution and is using Python as a post-exploitation interpreter for reverse shell establishment, lateral movement, or payload staging.
+references:
+    - https://attack.mitre.org/techniques/T1059.006/
+    - https://attack.mitre.org/techniques/T1190/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.006
+    - attack.initial_access
+    - attack.t1190
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/python'
+            - '/python3'
+            - '/python2'
+    selection_parent:
+        ParentImage|endswith:
+            - '/apache2'
+            - '/httpd'
+            - '/nginx'
+            - '/tomcat'
+            - '/java'
+            - '/ruby'
+            - '/php'
+            - '/mysqld'
+            - '/postgres'
+            - '/node'
+    condition: selection_process and selection_parent
+falsepositives:
+    - Web application frameworks and plugin systems that spawn Python subprocesses as part of normal operation
+    - Establish a baseline of approved Python child process relationships before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

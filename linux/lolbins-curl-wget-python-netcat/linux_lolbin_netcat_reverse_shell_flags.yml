@@ -1,0 +1,40 @@
+title: Linux LOLBin - Netcat Reverse Shell Flags
+id: b8e0f2a4-9c1d-4f7b-c9e1-f3a5b7c9d1e3
+status: experimental
+description: Detects netcat invocations using flags associated with reverse shell establishment. The -e and --exec flags instruct netcat to attach a program (typically /bin/sh or /bin/bash) to the connection, providing an interactive shell to a remote attacker. These flags are absent from OpenBSD netcat but are present in traditional netcat and ncat. The -l -p combination without -e is used for listener-side activity and may also warrant investigation in unexpected contexts.
+references:
+    - https://attack.mitre.org/techniques/T1059.004/
+    - https://gtfobins.github.io/gtfobins/nc/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.command_and_control
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_process:
+        Image|endswith:
+            - '/nc'
+            - '/ncat'
+            - '/netcat'
+    selection_exec_flag:
+        CommandLine|contains:
+            - ' -e '
+            - ' --exec '
+            - ' -e/'
+            - '--exec /'
+    condition: selection_process and selection_exec_flag
+falsepositives:
+    - Legitimate use of netcat -e in controlled network testing or penetration testing exercises
+    - Establish a baseline of approved netcat usage before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - User
+    - Hostname

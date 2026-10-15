@@ -1,0 +1,43 @@
+title: Linux LOLBin - Netcat External Network Connection
+id: c9f1a3b5-0d2e-4a8c-d0f2-a4b6c8d0e2f4
+status: experimental
+description: Detects netcat establishing outbound connections to external IP addresses. Filters out RFC 1918 private ranges, loopback, and APIPA addresses to focus on traffic leaving the network. Netcat making external connections outside of authorized testing windows is a strong indicator of reverse shell establishment or data exfiltration.
+references:
+    - https://attack.mitre.org/techniques/T1059.004/
+    - https://attack.mitre.org/techniques/T1071.001/
+author: dcrowder252
+date: 2026/10/15
+modified: 2026/10/15
+tags:
+    - attack.command_and_control
+    - attack.t1071.001
+    - attack.execution
+    - attack.t1059.004
+logsource:
+    category: network_connection
+    product: linux
+detection:
+    selection:
+        Image|endswith:
+            - '/nc'
+            - '/ncat'
+            - '/netcat'
+    filter_private:
+        DestinationIp|cidr:
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+            - '127.0.0.0/8'
+            - '169.254.0.0/16'
+    condition: selection and not filter_private
+falsepositives:
+    - Authorized network testing or penetration testing activity
+    - Establish a baseline of approved netcat external connection activity before alerting
+level: high
+fields:
+    - Image
+    - CommandLine
+    - DestinationIp
+    - DestinationPort
+    - User
+    - Hostname
