@@ -2,7 +2,7 @@
 
 # Threat Hunting & Detection Engineering Portfolio
 
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--10--01-blue)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--10--15-blue)
 ![GitHub Repo Size](https://img.shields.io/github/repo-size/dcrowder252/threat-hunting-detections)
 
 ## Table of Contents
@@ -49,7 +49,8 @@ threat-hunting-detections/
 │   └── lolbins-msiexec-wmic-msbuild/
 ├── linux/
 │   ├── log-clearing/
-│   └── scheduled-task-abuse/
+│   ├── scheduled-task-abuse/
+│   └── lolbins-curl-wget-python-netcat/
 ├── cloud/
 │   ├── azure-entra-identity/
 │   └── aws-identity/
@@ -88,6 +89,7 @@ Each topic folder contains:
 |---|---|---|---|---|---|---|
 | Log Clearing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Scheduled Task Abuse | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| LOLBins — Curl, Wget, Python, Netcat | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ### Cloud
 
