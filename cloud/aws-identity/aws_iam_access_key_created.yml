@@ -5,9 +5,10 @@ description: Detects the creation of new IAM access keys in AWS. Attackers who g
 references:
     - https://attack.mitre.org/techniques/T1098/001/
     - https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+    - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
 author: dcrowder252
 date: 2026/08/10
-modified: 2026/08/10
+modified: 2026/10/18
 tags:
     - attack.persistence
     - attack.t1098.001
@@ -17,7 +18,7 @@ logsource:
 detection:
     selection:
         eventName: CreateAccessKey
-        errorCode: success
+        errorCode|exists: false
     condition: selection
 falsepositives:
     - Legitimate access key creation as part of approved developer or automation provisioning workflows

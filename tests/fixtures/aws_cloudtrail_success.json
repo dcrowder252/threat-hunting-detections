@@ -1,0 +1,57 @@
+[
+  {
+    "case": "successful access key creation without errorCode",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "CreateAccessKey"
+    },
+    "matches": [
+      "aws_iam_access_key_created.yml"
+    ]
+  },
+  {
+    "case": "denied access key creation",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "CreateAccessKey",
+      "errorCode": "AccessDenied"
+    },
+    "matches": []
+  },
+  {
+    "case": "successful policy attachment without errorCode",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "AttachUserPolicy"
+    },
+    "matches": [
+      "aws_iam_privilege_escalation.yml"
+    ]
+  },
+  {
+    "case": "denied policy attachment",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "AttachUserPolicy",
+      "errorCode": "AccessDenied"
+    },
+    "matches": []
+  },
+  {
+    "case": "policy update failed for another reason",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "PutRolePolicy",
+      "errorCode": "MalformedPolicyDocument"
+    },
+    "matches": []
+  },
+  {
+    "case": "unrelated successful IAM operation",
+    "event": {
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "GetUser"
+    },
+    "matches": []
+  }
+]

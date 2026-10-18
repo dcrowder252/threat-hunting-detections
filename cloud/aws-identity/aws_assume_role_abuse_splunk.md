@@ -12,7 +12,7 @@
 ```spl
 index=<your_index> sourcetype="aws:cloudtrail"
 eventName="AssumeRole"
-errorCode=success
+NOT errorCode=*
 NOT userIdentity.type="AWSService"
 | spath path=requestParameters.roleArn output=AssumedRole
 | spath path=requestParameters.roleSessionName output=SessionName
@@ -30,7 +30,7 @@ The query below narrows results to cross-account role assumptions which are high
 ```spl
 index=<your_index> sourcetype="aws:cloudtrail"
 eventName="AssumeRole"
-errorCode=success
+NOT errorCode=*
 NOT userIdentity.type="AWSService"
 | spath path=requestParameters.roleArn output=AssumedRole
 | spath path=requestParameters.roleSessionName output=SessionName
@@ -46,7 +46,7 @@ NOT userIdentity.type="AWSService"
 
 - Adjust index value to match your environment
 - Sourcetype for AWS CloudTrail logs in Splunk is typically `aws:cloudtrail` — adjust if your environment uses a different sourcetype
-- `errorCode=success` filters to successful role assumptions only — remove to include failed attempts
+- Successful raw CloudTrail events omit `errorCode`. `NOT errorCode=*` excludes events with an error code; remove this filter to include failed attempts. See the [CloudTrail record reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html).
 - `AWSService` is excluded as it represents AWS services calling other AWS services internally and generates significant noise — the remaining identity types and their typical use cases are:
   - `IAMUser` — a human IAM user assuming a role — highest interest from an attacker perspective
   - `AWSAccount` — a cross-account role assumption — potentially interesting depending on environment

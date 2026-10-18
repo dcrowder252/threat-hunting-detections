@@ -18,7 +18,7 @@ eventName="AttachRolePolicy" OR
 eventName="CreatePolicy" OR
 eventName="PutGroupPolicy" OR
 eventName="AttachGroupPolicy")
-errorCode=success
+NOT errorCode=*
 | rex field=userIdentity.principalId ":(?P<AssumedRoleUser>[^:]+)$"
 | eval PerformedBy=case(
     'userIdentity.type'="IAMUser", user,
@@ -35,7 +35,8 @@ errorCode=success
 
 - Adjust index value to match your environment
 - Sourcetype for AWS CloudTrail logs in Splunk is typically `aws:cloudtrail` — adjust if your environment uses a different sourcetype
-- `errorCode=success` filters to successful policy changes only — remove to include failed attempts — running a separate search for high volumes of failed policy modification attempts may also be worth investigating as it could indicate an attacker probing for privilege escalation opportunities
+- Successful raw CloudTrail events omit `errorCode`. `NOT errorCode=*` excludes events with an error code; remove this filter to include failed attempts. See the [CloudTrail record reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html).
+- A separate search for high volumes of failed policy modification attempts can help identify probing for privilege escalation opportunities.
 - `rex` extracts the username from `userIdentity.principalId` for AssumedRole events — the field is structured as `ROLEID:username` and the username is everything after the last colon
 - `eval` with `case()` selects the correct username field based on identity type — `IAMUser` events store the username in `userIdentity.userName` which is also available as the flattened `user` field, while `AssumedRole` events use the extracted username from `principalId`
 - Fields containing dot notation must be wrapped in single quotes inside `eval` expressions in Splunk
