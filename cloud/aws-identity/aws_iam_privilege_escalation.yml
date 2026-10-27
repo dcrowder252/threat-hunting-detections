@@ -6,7 +6,7 @@ references:
     - https://attack.mitre.org/techniques/T1548/005/
 author: dcrowder252
 date: 2026/08/10
-modified: 2026/08/10
+modified: 2026/10/27
 tags:
     - attack.privilege_escalation
     - attack.t1548.005
@@ -24,8 +24,9 @@ detection:
             - CreatePolicy
             - PutGroupPolicy
             - AttachGroupPolicy
-        errorCode: success
-    condition: selection
+    filter_failed:
+        errorCode|exists: true
+    condition: selection and not filter_failed
 falsepositives:
     - Legitimate IAM policy changes performed by administrators as part of approved provisioning or change management workflows
     - Automated infrastructure as code deployments that attach policies as part of resource creation

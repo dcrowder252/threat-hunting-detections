@@ -12,7 +12,7 @@
 ```spl
 index=<your_index> sourcetype="aws:cloudtrail"
 eventName="CreateAccessKey"
-errorCode=success
+NOT errorCode=*
 | spath path=requestParameters.userName output=TargetUser
 | table _time, userIdentity.sessionContext.sessionIssuer.userName, TargetUser, eventName, sourceIPAddress, awsRegion, userAgent
 | rename userIdentity.sessionContext.sessionIssuer.userName as PerformedBy, sourceIPAddress as IPAddress
@@ -25,7 +25,7 @@ errorCode=success
 
 - Adjust index value to match your environment
 - Sourcetype for AWS CloudTrail logs in Splunk is typically `aws:cloudtrail` — adjust if your environment uses a different sourcetype
-- `errorCode=success` filters to successful access key creation only — remove to include failed attempts
+- `NOT errorCode=*` filters to successful access key creation only — in CloudTrail, successful API calls do not include an `errorCode` field; the field only appears when a request fails, so filtering for its absence is the correct way to isolate successful events
 - `userIdentity.sessionContext.sessionIssuer.userName` identifies the account that created the key
 - These may differ when an administrator creates a key for another user — pay particular attention when `PerformedBy` and `TargetUser` are different accounts
 - `spath` is used to extract the target username from the nested `requestParameters` JSON — the nested JSON structure may not be present in all tenants depending on how CloudTrail logs are ingested and normalized

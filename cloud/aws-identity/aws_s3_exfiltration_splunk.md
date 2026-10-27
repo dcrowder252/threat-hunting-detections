@@ -17,7 +17,7 @@ index=<your_index> sourcetype="aws:cloudtrail"
 eventName="GetBucketPolicy" OR
 eventName="GetBucketAcl" OR
 eventName="GetBucketLocation")
-errorCode=success
+NOT errorCode=*
 NOT userIdentity.type="AWSService"
 | rex field=userIdentity.principalId ":(?P<AssumedRoleUser>[^:]+)$"
 | eval PerformedBy=case(
@@ -40,7 +40,7 @@ This query surfaces accounts performing an unusually high volume of S3 object do
 ```spl
 index=<your_index> sourcetype="aws:cloudtrail"
 eventName="GetObject"
-errorCode=success
+NOT errorCode=*
 NOT userIdentity.type="AWSService"
 | rex field=userIdentity.principalId ":(?P<AssumedRoleUser>[^:]+)$"
 | eval PerformedBy=case(
@@ -69,6 +69,7 @@ NOT userIdentity.type="AWSService"
 
 - Adjust index value to match your environment
 - Sourcetype for AWS CloudTrail logs in Splunk is typically `aws:cloudtrail` — adjust if your environment uses a different sourcetype
+- `NOT errorCode=*` filters to successful API calls only — in CloudTrail, successful API calls do not include an `errorCode` field; the field only appears when a request fails, so filtering for its absence is the correct way to isolate successful events
 - `AWSService` is excluded from both queries as AWS services constantly call S3 APIs internally and generate significant noise
 - `rex` extracts the username from `userIdentity.principalId` for AssumedRole events — the field is structured as `ROLEID:username` and the username is everything after the last colon
 - `eval` with `case()` selects the correct username field based on identity type — `IAMUser` events store the username in `userIdentity.userName` which is also available as the flattened `user` field, while `AssumedRole` events use the extracted username from `principalId`

@@ -7,7 +7,7 @@ references:
     - https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
 author: dcrowder252
 date: 2026/08/10
-modified: 2026/08/10
+modified: 2026/10/27
 tags:
     - attack.persistence
     - attack.t1098.001
@@ -17,8 +17,9 @@ logsource:
 detection:
     selection:
         eventName: CreateAccessKey
-        errorCode: success
-    condition: selection
+    filter_failed:
+        errorCode|exists: true
+    condition: selection and not filter_failed
 falsepositives:
     - Legitimate access key creation as part of approved developer or automation provisioning workflows
     - Automated key rotation processes that create new keys before removing old ones
